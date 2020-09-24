@@ -45,6 +45,10 @@ class UserMaster extends Model
         'paytm_phone'
     ];
 
+    public function sponser() {
+        return $this->hasOne('App\DB\UserMaster', 'id', 'sponsor_id');
+    }
+
     public static function getUserMaster($id)
     {
         $data = UserMaster::where('id', '=', $id)->first();

@@ -5,6 +5,7 @@
 	include "user/user_route.php";
 	include "tree/tree_route.php";
 	include "level/level_route.php";
+	include "activation/activation_route.php";
 	// include "myaccount/myaccount_route.php";
 	// include "mlm/mlm_route.php";
 	

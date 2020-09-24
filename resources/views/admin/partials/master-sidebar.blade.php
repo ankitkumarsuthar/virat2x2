@@ -95,7 +95,7 @@
 
               
                 <li>
-                    <a href="activation.php">
+                    <a href="{{ URL::route('admin.activation.index') }}">
                         <i data-feather="check-square"></i>
                         <span> Activation </span>
                     </a>
