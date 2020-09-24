@@ -1,0 +1,15 @@
+php artisan make:migration create_mlm_user_table --table=mlm_user
+
+php artisan make:migration create_video_master_table --table=video_master
+
+php artisan make:migration create_user_video_table --table=user_video
+
+php artisan make:migration create_wallet_master_table --table=wallet_master
+
+
+php artisan make:migration add_fk_in_user_master_id_field_into_users_table --table=users
+
+php artisan make:migration add_fk_in_user_master_id_field_into_users_table --table=users
+
+
+php artisan make:migration create_mlm_level_table
