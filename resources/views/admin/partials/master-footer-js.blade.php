@@ -44,4 +44,25 @@
 	        return true;
 	    });
 	});
+
+	function showFormMessage(div_class, icon_class, text)
+	{
+	    $("#form-message").html(null);
+	    
+	    var html = '<div class="'+div_class+'" role="alert" id="ajax_message">'+
+	            '<div class="alert-icon"><i class="'+icon_class+'"></i></div>'+
+	            '<div class="alert-text">'+text+'</div>'+
+	            '<div class="alert-close">'+
+	            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+	            '<span aria-hidden="true"><i class="la la-close"></i></span>'+
+	            '</button>'+
+	            '</div>'+
+	            '</div>';
+
+	    $("#form-message").html(html);
+
+	    setTimeout(function(){ 
+	            $("#ajax_message").fadeOut();
+	        }, 4000);
+	}
 </script>

@@ -13,9 +13,11 @@ use App\DB\Level;
 class DashboardController extends Controller
 {
     public $view                = '';    
+    public $ref                = '';    
 
     public function __construct() {
         $this->view             = 'admin.dashboard.';                  
+        $this->ref             = 'admin.refferal.';                  
     }
 
     public function index(Request $request)
@@ -44,6 +46,15 @@ class DashboardController extends Controller
             } catch (Exception $e) {
                 
             }
+    }
+
+    public function RefferalBonusSave()
+    {
+        try {
+            
+        } catch (Exception $e) {
+            
+        }
     }
   
 

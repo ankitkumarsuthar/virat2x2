@@ -5,15 +5,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'admincheck'], function () {
 	 Route::get('/activation/', [
             'as'    => 'admin.activation.index',
             'uses'  => 'Admin\ActivationController@index'
-        ]);        // Route::get('/user/create', [
-        //     'as'    => 'admin.user.create',
-        //     'uses'  => 'Admin\ActivationController@create'
-        // ]);
-
-        // Route::post('/user/store', [
-        //     'as'    => 'admin.user.store',
-        //     'uses'  => 'Admin\ActivationController@store'
-        // ]);
+        ]);        
 
         Route::get('/activation/activate/{id}', [
             'as'    => 'admin.activation.activate',
@@ -25,15 +17,16 @@ Route::group(['prefix' => '/admin', 'middleware' => 'admincheck'], function () {
             'uses'  => 'Admin\ActivationController@remove'
         ]);
 
+         Route::get('/activation/delete/{id}', [
+            'as'    => 'admin.activation.delete',
+            'uses'  => 'Admin\ActivationController@delete'
+        ]);
+
         Route::post('/activation/update', [
             'as'    => 'admin.activation.update',
             'uses'  => 'Admin\ActivationController@update'
         ]);
 
-        Route::get('/activation/delete/{id}', [
-            'as'    => 'admin.activation.delete',
-            'uses'  => 'Admin\ActivationController@delete'
-        ]);
 
         Route::get('/activation/get-list', [
             'as'    => 'admin.activation.getlist',

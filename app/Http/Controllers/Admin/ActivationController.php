@@ -76,26 +76,26 @@ class ActivationController extends Controller
 
     public function remove(Request $request, $id)
     {
-        try {
-            $data = [];
-            $record     = UserMaster::find($id);
-            $user_data  = User::where('user_master_id', $record->id)->first();
+        // try {
+        //     $data = [];
+        //     $record     = UserMaster::find($id);
+        //     $user_data  = User::where('user_master_id', $record->id)->first();
 
-            $user = Sentinel::findById($user_data['id']);
-            $user->delete();
-            $result         = $record->delete();
+        //     $user = Sentinel::findById($user_data['id']);
+        //     $user->delete();
+        //     $result         = $record->delete();
 
-            if ($result) {
-                Session::flash('success', 'User Account removed successfully.');
-                return redirect(route('admin.activation.index'));
-            } else {
-                Session::flash('error', 'Fail to removed the account.');
-                return \Redirect::back()->withInput();
-            }
-            return \View::make($this->view.'edit', $data);
-        } catch (Exception $e) {
+        //     if ($result) {
+        //         Session::flash('success', 'User Account removed successfully.');
+        //         return redirect(route('admin.activation.index'));
+        //     } else {
+        //         Session::flash('error', 'Fail to removed the account.');
+        //         return \Redirect::back()->withInput();
+        //     }
+        //     return \View::make($this->view.'edit', $data);
+        // } catch (Exception $e) {
             
-        }
+        // }
     }
 
     /**
@@ -135,28 +135,26 @@ class ActivationController extends Controller
     public function delete(Request $request, $id)
     {
         try {
-
-            $data['id']     = $id;
+            $data['id']     = $id;            
             $result         = $this->dispatch(new UserStoreCommand($data, $request, 'delete'));
-
             if ($result) {
                 return response()->json([
                     'delete-user'           => true,
                     'reqstatus'             => 'success', 
-                    'message'               => \Lang::get($this->index.'delete_success_msg')
+                    'message'               => 'User Account removed successfully.'
                 ]);
             } else {
                 return response()->json([
                     'delete-user'           => true,
                     'reqstatus'             => 'error', 
-                    'message'               => \Lang::get($this->index.'delete_error_msg')
+                    'message'               => 'Fail to removed the account.'
                 ]);            
             }
         } catch (Exception $e) {
             return response()->json([
                 'delete-user'           => true,
                 'reqstatus'             => 'error', 
-                'message'               => \Lang::get($this->index.'delete_error_msg')
+                'message'               => 'Fail to removed the account.'
             ]);            
         }
     }
@@ -200,8 +198,8 @@ class ActivationController extends Controller
                         } else{
                              $edit_btn = '';
                         }  
-                        $delete_btn = '<a href="'.\URL::route('admin.activation.remove', [ 'id' => $row->id ]).'"><button type="button" class="btn btn-danger waves-effect waves-light" onclick="return confirm("Are you sure?")">Remove</button></a>';                      
-                        // $delete_btn = '<a href="javascript:deleteClient(\''.$row->id.'\')" id="delete_'.$row->id.'"  data-url="'.\URL::route('admin.user.delete', [ 'id' => $row->id ]).'" ><button type="button" class="btn btn-danger waves-effect waves-light">Remove</button></a>';
+                        // $delete_btn = '<a href="'.\URL::route('admin.activation.remove', [ 'id' => $row->id ]).'"><button type="button" class="btn btn-danger waves-effect waves-light" >Remove</button></a>';                      
+                        $delete_btn = '<a href="javascript:deleteClient(\''.$row->id.'\')" id="delete_'.$row->id.'"  data-url="'.\URL::route('admin.activation.delete', [ 'id' => $row->id ]).'" ><button type="button" class="btn btn-danger waves-effect waves-light">Remove</button></a>';
 
                         return $edit_btn." ".$delete_btn;
                     })
@@ -211,6 +209,8 @@ class ActivationController extends Controller
             
         }
     }
+
+
 
 
    

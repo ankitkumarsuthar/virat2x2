@@ -13,8 +13,9 @@ class CreateMlmLevelTable extends Migration
      */
     public function up()
     {
-        Schema::create('mlm_level', function (Blueprint $table) {
+        Schema::create('refferal_bonus_setting', function (Blueprint $table) {
             $table->id();
+            $table->string('refferal_bonus_amount', 25)->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ class CreateMlmLevelTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mlm_level');
+        Schema::dropIfExists('refferal_bonus_setting');
     }
 }

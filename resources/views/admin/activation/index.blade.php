@@ -65,6 +65,7 @@
 <script src="{{ asset('public/assets/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
 <script src="{{ asset('public/assets/libs/pdfmake/build/pdfmake.min.js') }}"></script>
 <script src="{{ asset('public/assets/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script type="text/javascript">
     var table = '';
@@ -93,7 +94,7 @@
                 serverSide: true,
                 ajax: '{{ URL::route("admin.activation.getlist") }}',      
                 columns: [
-                    { data: 'id', name: 'id', width: 100 , "visible": false }, 
+                    { data: 'id', name: 'id', width: 100 , "visible": true }, 
                     { data: 'self_sponsor_key', name: 'self_sponsor_key', width: 300 }, 
                     { data: 'name', name: 'name', width: 300 }, 
                     { data: 'email', name: 'email', width: 300 }, 
@@ -111,6 +112,41 @@
                 },
             });    
     }
+
+    function deleteClient(id)
+    {
+        var url = $("#delete_"+id).data('url');   
+
+        swal({
+              title: "Are you sure?",
+              text: "Once deleted, you will not be able to recover this imaginary file!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((result) => {
+                console.log(result);
+              if (result) {
+                $.ajax({
+                    type : 'GET',
+                    url : url,
+                    success: function(data) {
+                        if( data.reqstatus == 'success' ) {        
+                            //swal.fire("", data.msg, "success");
+                            showFormMessage('alert alert-success fade show', 'fa fa-check-circle', data.message);
+                            loadClientList();
+                        } else {
+                            showFormMessage('alert alert-danger fade show', 'fa fa-exclamation-circle', data.message);
+                        }
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        
+                    }
+                });
+              } 
+            }); 
+    }
+
 
    
 </script>

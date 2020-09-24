@@ -109,7 +109,7 @@
                 </li>
 				
 				<li>
-                    <a href="video-link.php">
+                    <a href="{{ URL::route('admin.videos.index') }}">
                         <i data-feather="video"></i>
                         <span> Video Links </span>
                     </a>

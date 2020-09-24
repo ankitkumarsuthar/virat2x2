@@ -84,6 +84,7 @@ class UserRegistrationStoreCommand extends Command
                     ));
 
                     $user_record = Sentinel::findByCredentials( [ 'email' => $this->data['email'] ] );
+                    // $role = Sentinel::findRoleById('1');                        
                     $role = Sentinel::findRoleById('3');                        
                     $role->users()->attach($user_record);
 

@@ -217,12 +217,11 @@ class UserStoreCommand extends Command
             return $result;
 
         } else if ($this->operation == 'delete') {
-
-            $record = User::find($this->data['id']);
-            $record->delete_by = $user->id;
-            $record->save();
-
-            $result = $record->delete();
+            $record     = User::find($this->data['id']);
+            $user_data  = User::where('user_master_id', $record->id)->first();            
+            $user       = Sentinel::findById($user_data['id']);
+            $user->delete();
+            $result     = $record->delete();            
             return $result;
         }
     }
