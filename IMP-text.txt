@@ -13,3 +13,33 @@ php artisan make:migration add_fk_in_user_master_id_field_into_users_table --tab
 
 
 php artisan make:migration create_mlm_level_table
+
+
+YOUTUBE API KEY: 
+AIzaSyAkRJ37vbQO7knd87S4YlYMLXBzoSihbeo
+
+Example: 
+https://www.googleapis.com/youtube/v3/videos?id=krCpn6RrNX8&part=contentDetails&key=AIzaSyAkRJ37vbQO7knd87S4YlYMLXBzoSihbeo
+file_get_contents
+
+https://www.youtube.com/watch?v=EngW7tLk6R8
+https://www.youtube.com/watch?v=EngW7tLk6R8
+
+11
+https://www.youtube.com/watch?v=vxffHm4wy24
+
+YOUTUBE API
+https://thedebuggers.com/get-youtube-video-info-using-api-via-php/
+
+
+user_master_id
+
+php artisan make:migration add_user_master_id_to_user_video  --table=user_video
+php artisan make:migration add_change_fk_in_user_master_id_field_into_user_video_table --table=user_video
+
+
+
+
+
+
+

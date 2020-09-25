@@ -66,6 +66,9 @@ class LoginController extends Controller
                             Session::flash('error', 'Hello, User Please Contact site admin to activate the your account.');
                             return \Redirect::back()->withInput(); 
                        } else {
+                            Session::forget('videoStart');
+                            Session::forget('videoEnd');
+                            Session::forget('current_video');
                             Session::flash('success', 'Successfully Logged in to your acccount.');
                             return redirect(route('user.dashboard')); 
                        }

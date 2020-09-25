@@ -123,7 +123,7 @@
                 </li>
 				
 				<li>
-                    <a href="refferal_bonus.php">
+                    <a href="{{ URL::route('admin.refferal.index') }}">
                         <i data-feather="gift"></i>
                         <span> Referral Bonus Setting  </span>
                     </a>

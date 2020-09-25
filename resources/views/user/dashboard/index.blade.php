@@ -1,4 +1,4 @@
-    @extends('user.user-master')
+@extends('user.user-master')
 
 
 @section('page-level-css')

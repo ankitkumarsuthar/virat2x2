@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-6">
                     <div class="text-right">
-                        <h3 class="mt-1">1</h3>
+                        <h3 class="mt-1">{{ $user_level_data['current_level'] }}</h3>
                         <p class="text-muted mb-1 text-truncate">Your Level</p>
                     </div>
                 </div>
@@ -45,7 +45,11 @@
                 </div>
                 <div class="col-6">
                     <div class="text-right">
-                        <h3 class="text-dark mt-1">Admin</h3>
+                        @if(!empty($user_master->sponsor_id))
+                            <h3 class="text-dark mt-1">{{ $user_master->sponser->name }}</h3>
+                        @else
+                            <h3 class="text-dark mt-1">No-Sponser</h3>
+                        @endif
                         <p class="text-muted mb-1 text-truncate">Your Sponser</p>
                     </div>
                 </div>

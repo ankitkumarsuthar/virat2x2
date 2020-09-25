@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use App\DB\UserMaster;
 use App\DB\User;
 use App\DB\Level;
+use App\DB\RefferalBonusSetting;
 
 class DashboardController extends Controller
 {
@@ -51,7 +52,39 @@ class DashboardController extends Controller
     public function RefferalBonusSave()
     {
         try {
+            $data = [];
+            $data['title']          = 'Admin Dashboard';
+            $data['page_title']     = 'Admin Dashboard';
+            $data['user']           = Sentinel::getUser();
+            $data['refferal_bonus'] = RefferalBonusSetting::first();
+             return \View::make($this->ref.'index', $data); 
+        } catch (Exception $e) {
             
+        }
+    }
+
+    public function RefferalBonusUpdate(Request $request)
+    {
+        try {
+            $data = $request->all();       
+            if(!empty($data['refferal_bonus_amount']))
+            {
+                $record = RefferalBonusSetting::first();
+                $record->refferal_bonus_amount = $data['refferal_bonus_amount'];
+                $result = $record->save();                
+                if ($result) {
+                    Session::flash('success', 'Refferal Bonus save successfully.');
+                    return redirect(route('admin.refferal.index'));
+                } else {
+                    Session::flash('error', 'Fail to store Refferal Bonus detail.');
+                    return redirect(route('admin.refferal.index'));
+                }
+            } else {
+                Session::flash('error', 'Fail to store Refferal Bonus detail.');
+                return redirect(route('admin.refferal.index'));
+            }
+
+                
         } catch (Exception $e) {
             
         }

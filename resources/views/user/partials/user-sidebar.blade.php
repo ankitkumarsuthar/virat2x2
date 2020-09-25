@@ -187,7 +187,7 @@
                 <li class="menu-title mt-2">Menu</li>
 
                 <li>
-                    <a href="work.php">
+                    <a href="{{ URL::route('user.work.index') }}">
                         <i data-feather="video"></i>
                         <span> Work </span>
                     </a>
@@ -222,7 +222,7 @@
                                 <a href="withdraw_bank.php">Withdraw Money</a>
                             </li>
                             <li>
-                                <a href="transections.php">Transactions</a>
+                                <a href="{{ URL::route('user.wallet.all_transactions.index') }}">Transactions</a>
                             </li>
                            
                         </ul>

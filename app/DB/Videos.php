@@ -28,8 +28,4 @@ class Videos extends Model
         'video_status', 
         'video_detail'
     ];
-
-    
-
-
 }

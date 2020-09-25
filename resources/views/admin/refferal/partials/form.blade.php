@@ -7,29 +7,22 @@
                &nbsp;
             </p>
 
-           {{ Form::open(['route' => ['admin.videos.update'], 'class' => '', 'name' => 'save_referral', 'id' => 'save_referral' ]) }}
+           {{ Form::open(['route' => ['admin.refferal.update'], 'class' => '', 'name' => 'save_referral', 'id' => 'save_referral' ]) }}
               
                 <div class="form-group row">
-                    <label for="hori-pass1" class="col-2 col-form-label">Referral Bonus<span class="text-danger">*</span></label>
+                    <label for="refferal_bonus_amount"  class="col-2 col-form-label">Referral Bonus<span class="text-danger">*</span></label>
                     <div class="col-7">
-                        <input id="hori-pass1" type="text" required="" class="form-control">
-                    </div>
-					
-                </div>
-				
-				
-               
-
-              
+                        <input id="refferal_bonus_amount" name="refferal_bonus_amount"  type="text" required="" class="form-control allowdecimalonly" value="{{ @$refferal_bonus->refferal_bonus_amount }}">
+                    </div>					
+                </div>              
                 <div class="form-group row">
                     <div class="col-8 offset-4">
                         <button type="submit" class="btn btn-primary waves-effect waves-light">
                             Save Changes
-                        </button>
-                       
+                        </button>                       
                     </div>
                 </div>
-            </form>
+            {{ Form::close() }}
         </div> <!-- end card-box -->
 		
     </div> <!-- end col -->
