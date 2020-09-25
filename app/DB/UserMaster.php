@@ -42,6 +42,9 @@ class UserMaster extends Model
         'upi_id',
         'sponser_mobile',
         'sponser_unique_id',
+        'total_income',
+        'total_expense',
+        'wallet_balance',
         'paytm_phone'
     ];
 

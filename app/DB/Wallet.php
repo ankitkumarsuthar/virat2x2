@@ -50,7 +50,7 @@ class Wallet extends Model
      public static function addVideoIncome($user_master, $level)
 	 {
 	 	$todayVideoIncome = Wallet::where('entry_date', date('Y-m-d'))->first();
-	 	if(empty($todayVideoIncome->toArray()))
+	 	if(empty($todayVideoIncome))
 	 	{
 	 		$user = Sentinel::getUser();
 	        $record                   = new Wallet();
@@ -65,11 +65,44 @@ class Wallet extends Model
 	        $record->sending_or_receiving = 1;
 	        $record->payment_status = 2;
 	        $result                   = $record->save();
-        	return $result;
+        	
+
+            $user_master_record = UserMaster::find($user_master->id);
+            $user_master_record->total_income =  $user_master->total_income + $level->level_payment;
+            $user_master_record->wallet_balance =  $user_master->wallet_balance + $level->level_payment;
+            $user_master_record->save();
+
+            return $result;
+
 	 	}	else {
 	 		return true;
 	 	} 	
 	 }
+
+     public static function currentBalance($user_master)
+     {
+        $income = Self::userIncome($user_master);   
+        $expence = Self::userExpence($user_master);   
+        if($income > $expence)
+        {
+            $final_total = $income - $expence;
+            return $final_total;
+        } else {
+            return 0;
+        }        
+     }
+
+     public static function userIncome($user_master)
+     {
+        $user_total_income = Wallet::where('sending_or_receiving', 1)->sum('pay_amount');   
+        return $user_total_income;        
+     }
+
+     public static function userExpence($user_master)
+     {
+        $user_total_expence = Wallet::where('sending_or_receiving', 0)->sum('pay_amount');   
+        return $user_total_expence;  
+     }
 
 
 }

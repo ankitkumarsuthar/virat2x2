@@ -31,10 +31,8 @@ class WorkController extends Controller
             $data['view']           = $this->view;
             $data['user']           = Sentinel::getUser();
             $data['user_master']    = UserMaster::getUserMaster($data['user']['user_master_id']);
-
             $data['video_count'] = UserVideo::getUserTodayVideoCount($data['user_master']);
-            // dd($data['video_count']);
-            if($data['video_count'] == 10)
+            if($data['video_count'] >= 10)
             {
                 return redirect(route( 'user.work.done' )); 
             } 
@@ -70,7 +68,7 @@ class WorkController extends Controller
     public function start(Request $request)
     {
         try {
-            $data = [];
+            $data = [];            
             Session::put('videoStart', 1);
             Session::put('videoEnd', 0);
             Session::put('current_video', 1);

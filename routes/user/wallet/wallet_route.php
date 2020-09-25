@@ -11,37 +11,26 @@ Route::group(['prefix' => '/user', 'middleware' => 'usercheck'], function () {
             'uses'  => 'User\WalletController@all_transactions_get_list'
         ]); 
 
-        Route::get('/wallet/create', [
-            'as'    => 'user.wallet.create',
-            'uses'  => 'User\WalletController@create'
-        ]);
+        Route::get('/wallet/transfer_to_another', [
+            'as'    => 'user.wallet.transfer.to.another',
+            'uses'  => 'User\WalletController@transferToAnother'
+        ]); 
+        Route::post('/wallet/transfer_to_another/send', [
+            'as'    => 'user.wallet.transfer.to.another.send',
+            'uses'  => 'User\WalletController@transferToAnotherSend'
+        ]); 
 
-        Route::post('/wallet/store', [
-            'as'    => 'user.wallet.store',
-            'uses'  => 'User\WalletController@store'
-        ]);
+        Route::get('/wallet/withdraw', [
+            'as'    => 'user.wallet.withdraw.index',
+            'uses'  => 'User\WalletController@withdrawForm'
+        ]); 
 
-        Route::get('/wallet/edit/{id}', [
-            'as'    => 'user.wallet.edit',
-            'uses'  => 'User\WalletController@edit'
-        ]);
+        Route::post('/wallet/withdraw/request', [
+            'as'    => 'user.wallet.withdraw.request',
+            'uses'  => 'User\WalletController@withdrawRequest'
+        ]); 
 
-        Route::post('/wallet/update', [
-            'as'    => 'user.wallet.update',
-            'uses'  => 'User\WalletController@update'
-        ]);
-
-        Route::get('/wallet/delete/{id}', [
-            'as'    => 'user.wallet.delete',
-            'uses'  => 'User\WalletController@delete'
-        ]);
-
-        Route::get('/wallet/get-list', [
-            'as'    => 'user.wallet.getlist',
-            'uses'  => 'User\WalletController@getList'
-        ]);      
         
-    
 
 });
 

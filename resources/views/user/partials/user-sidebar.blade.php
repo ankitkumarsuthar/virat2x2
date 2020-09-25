@@ -216,7 +216,7 @@
                     <div class="collapse" id="sidebarCrm">
                         <ul class="nav-second-level">
                              <li>
-                                <a href="transfer_to_account.php">Transfer to Account</a>
+                                <a href="{{ URL::route('user.wallet.transfer.to.another') }}">Transfer to Account</a>
                             </li>
 							<li>
                                 <a href="withdraw_bank.php">Withdraw Money</a>

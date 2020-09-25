@@ -49,7 +49,7 @@ class UserVideo extends Model
 
 	 public static function getUserTodayVideoCount($user_master)
 	 {
-        $record = UserVideo::where('user_id', $user_master['id'])->where('watch_date', date('Y-m-d'))->count();
+        $record = UserVideo::where('user_id', $user_master['id'])->where('watch_date', date('Y-m-d'))->count();        
         return $record;
 	 }
 
