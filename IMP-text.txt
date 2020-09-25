@@ -15,12 +15,6 @@ php artisan make:migration add_fk_in_user_master_id_field_into_users_table --tab
 php artisan make:migration create_mlm_level_table
 
 
-YOUTUBE API KEY: 
-AIzaSyAkRJ37vbQO7knd87S4YlYMLXBzoSihbeo
-
-Example: 
-https://www.googleapis.com/youtube/v3/videos?id=krCpn6RrNX8&part=contentDetails&key=AIzaSyAkRJ37vbQO7knd87S4YlYMLXBzoSihbeo
-file_get_contents
 
 https://www.youtube.com/watch?v=EngW7tLk6R8
 https://www.youtube.com/watch?v=EngW7tLk6R8
