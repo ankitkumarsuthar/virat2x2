@@ -25,11 +25,15 @@
                         </tr>
                         <tr>
                             <td>Your Level </td>
-                            <td>1</td>
+                            <td>{{ @$user_level_data['current_level'] }}</td>
                         </tr>
                         <tr>
                             <td>Your Sponsor</td>
+                            @if(!empty($user_master->sponser))
+                                <td>{{ $user_master->sponser->name }}</td>
+                            @else
                             <td>Admin</td>
+                            @endif
                         </tr>
                 </table>        
       

@@ -30,6 +30,11 @@ Route::group(['prefix' => '/user', 'middleware' => 'usercheck'], function () {
             'uses'  => 'User\WalletController@withdrawRequest'
         ]); 
 
+        Route::get('/wallet/withdraw/request', [
+            'as'    => 'user.wallet.request.getlist',
+            'uses'  => 'User\WalletController@withdrawRequestGetList'
+        ]); 
+
         
 
 });

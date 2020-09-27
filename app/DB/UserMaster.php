@@ -26,6 +26,7 @@ class UserMaster extends Model
         'update_by', 
         'sponsor_id',       
         'mlm_side',       
+        'referral_sponser_id',       
         'self_sponsor_key',
         'name',
         'email',

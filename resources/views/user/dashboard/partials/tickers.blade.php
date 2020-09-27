@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-6">
                     <div class="text-right">
-                        <h3 class="text-dark mt-1">8 / 10</h3>
+                        <h3 class="text-dark mt-1">{{ $video_count }}/ 10</h3>
                         <p class="text-muted mb-1 text-truncate">Today's Work</p>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="col-6">
                     <div class="text-right">
-                        <h3 class="text-dark mt-1"><span data-plugin="counterup">100 </span> ₹</h3>
+                        <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ @$current_balance }} </span> ₹</h3>
                         <p class="text-muted mb-1 text-truncate">Current Wallet</p>
                     </div>
                 </div>

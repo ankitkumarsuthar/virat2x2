@@ -25,16 +25,16 @@
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">MLM</a></li>
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Users</a></li>
-                                <li class="breadcrumb-item active">Create User</li>
+                                <li class="breadcrumb-item active">Edit User</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Create User</h4>
+                        <h4 class="page-title">Edit User</h4>
                     </div>
                 </div>
             </div>                     
 
            
-            @include("admin.user.partials.form")
+            @include("admin.user.partials.formEdit")
 
 
         </div> <!-- container -->
@@ -65,9 +65,9 @@ $(document).ready(function() {
         return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/.test( value );
     }, 'Password must contains 8 to 16 characters which have 1 uppercase character, 1 lowercase character, 1 number and 1 special character (#?!@$%^&*-). Example: Sumit@123');
 
-    var form1 = $('#add_user_form');
+    var form1 = $('#edit_user_form');
     var error1 = $('.alert-danger', form1);
-    $("#add_user_form").validate({
+    $("#edit_user_form").validate({
         errorElement: 'span', //default input error message container
         errorClass: 'help-block help-block-error', // default input error message class
         invalidHandler: function(event, validator) { //display error alert on form submit
@@ -86,40 +86,16 @@ $(document).ready(function() {
             $(element).removeClass('is-invalid');
             $(element).closest('.form-group').removeClass('validated'); // set success class to the control group
         },
-        rules: {
-            user_email: {
-                required: true,
-                email:true,
-                // remote: {
-                //     url: '{{ URL::route("user.users.check.email") }}',
-                //     type: "post",
-                //     data: {
-                //         id: 0
-                //     }
-                // }
-            }, 
-            user_password : {
-                required        : true, 
-                custompassword  : true
-            },
+        rules: {   
             user_name: {
                 required: true
             }, 
             user_mobile : {
                 number: true
-            }
-            
+            }            
             
         },
-        messages: {
-            user_email: {
-                required: 'Email is a required field.',
-                 email: 'Invalid Eamil formage.', 
-                 remote: 'Duplicate email detected.'
-            },             
-            user_password : {
-                required : 'Password is a required field.'
-            },             
+        messages: {      
             user_name : {
                 required : 'User name is required field.'
             },              

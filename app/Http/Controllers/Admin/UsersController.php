@@ -9,6 +9,8 @@ use DataTables;
 use Illuminate\Support\Facades\Session;
 
 use App\DB\User;
+use App\DB\Wallet;
+use App\DB\UserMaster;
 use App\DB\RoleUser;
 use App\Http\Requests\Admin\UserRequest;
 use App\Commands\Admin\UserStoreCommand;
@@ -130,15 +132,12 @@ class UsersController extends Controller
     {
     	try {
             $data = [];
-
-            $data['title']          = \Lang::get($this->edit.'meta_title_lbl');
-            $data['page_title']     = \Lang::get($this->edit.'page_title_lbl');
-
+            $data['title']          = 'Edit User';
+            $data['page_title']     = 'Edit User';
             $data['lang']           = $this->edit;
             $data['user']           = User::find($id);
+            $data['user_master']    = UserMaster::getUserMaster($data['user']['user_master_id']); 
             $data['view']           = $this->view;
-            $data['status_list']    = User::getStatusList();
-
             return \View::make($this->view.'edit', $data);
     	} catch (Exception $e) {
     		
@@ -152,18 +151,18 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request)
+    public function update(Request $request)
     {
         try {
-            $data = $request->all();
-
+            $data = $request->all();                        
+            $data['user_data'] = User::where('user_master_id', $data['user_master_id'])->first();            
             $result = $this->dispatch(new UserStoreCommand($data, $request, 'edit'));
 
             if ($result) {
-                Session::flash('success', \Lang::get($this->index.'edit_success_msg'));
+                Session::flash('success', 'Detail save successfully.');
                 return redirect(route('admin.user.index'));
             } else {
-                Session::flash('error', \Lang::get($this->index.'edit_error_msg'));
+                Session::flash('error', 'Fail to save details.');
                 return \Redirect::back()->withInput();
             }
 
@@ -190,20 +189,20 @@ class UsersController extends Controller
                 return response()->json([
                     'delete-user'           => true,
                     'reqstatus'             => 'success', 
-                    'message'               => \Lang::get($this->index.'delete_success_msg')
+                    'message'               => 'User deleted successfully.'
                 ]);
             } else {
                 return response()->json([
                     'delete-user'           => true,
                     'reqstatus'             => 'error', 
-                    'message'               => \Lang::get($this->index.'delete_error_msg')
+                    'message'               => 'Fail to delete user.'
                 ]);            
             }
         } catch (Exception $e) {
             return response()->json([
                 'delete-user'           => true,
                 'reqstatus'             => 'error', 
-                'message'               => \Lang::get($this->index.'delete_error_msg')
+                'message'               => 'Fail to delete user.'
             ]);            
         }
     }
@@ -212,18 +211,36 @@ class UsersController extends Controller
 
     public function getList(Request $request)
     {
-        try {
-            
+        try {            
             $user_id_list = RoleUser::where('role_id', '3')->pluck('user_id')->toArray();
             $data 	     = User::whereIn('id', $user_id_list)->get();
-
             return \DataTables::of($data)
-                    ->addColumn('user_name', function($row) {
-                        return $row->first_name;
+                    ->addIndexColumn()
+                    ->addColumn('self_sponsor_key', function($row) {
+                        return $row->usermaster->self_sponsor_key;
                     })
-                    ->addColumn('email', function($row) {
-                        return $row->email;
+                    ->addColumn('name', function($row) {
+                        return $row->usermaster->name;
+                    })                   
+                    ->addColumn('status', function($row) {
+                        if($row->usermaster->account_status == 0)
+                        {
+                            return 'Not Active';
+                        } else {
+                            return 'Active';
+                        }                        
                     })
+                    ->addColumn('mobile', function($row) {
+                        return $row->usermaster->mobile.'|| '.$row->usermaster->email;
+                    }) 
+                    ->addColumn('wallet', function($row) {
+                        if($row->usermaster->wallet_balance > 0)
+                        {
+                            return "&#8377; ". $row->usermaster->wallet_balance;
+                        } else {
+                            return "&#8377; 0";
+                        }
+                    })                      
                     ->addColumn('action', function($row) {
                         // $edit_btn = '<a href="'.\URL::route('admin.user.edit', [ 'id' => $row->id ]).'" class="btn btn-outline-info btn-elevate btn-circle btn-icon mt-1 mb-1 mr-2" title="'.\Lang::get($this->index.'edit_title').'"><i class="la la-edit"></i></a>';
                         $edit_btn = '<a href="'.\URL::route('admin.user.edit', [ 'id' => $row->id ]).'"><button type="button" class="btn btn-primary waves-effect waves-light">Edit</button></a>';
@@ -233,7 +250,7 @@ class UsersController extends Controller
 
                         return $edit_btn." ".$delete_btn;
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action','wallet'])
                     ->make(true);
 
 

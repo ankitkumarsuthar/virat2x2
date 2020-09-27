@@ -3,7 +3,12 @@
     <head>
         @include("user.partials.auth-header")        
         @yield('page-level-css')
-
+        <style type="text/css">
+            .help-block-error{
+                color: red !important;
+                font-family: inherit;
+            }
+        </style>
     </head>
 
     <body class="authentication-bg authentication-bg-pattern">

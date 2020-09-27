@@ -130,7 +130,7 @@
                 </li>
 				
 				<li>
-                    <a href="withdrawal_request.php">
+                    <a href="{{ URL::route('admin.withdrawal.index') }}">
                         <i data-feather="dollar-sign"></i>
                         <span> Withdrawal Request  </span>
                     </a>
@@ -138,15 +138,11 @@
 				
 				 
 				<li>
-                    <a href="notification.php">
+                    <a href="{{ URL::route('admin.notification.index') }}">
                         <i data-feather="bell"></i>
                         <span> Notification   </span>
                     </a>
                 </li>
-				
-			
-				
-				
 				
 				<li>
                     <a href="{{ URL::route('admin.logout') }}">

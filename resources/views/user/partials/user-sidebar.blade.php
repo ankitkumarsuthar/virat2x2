@@ -16,7 +16,7 @@
             <li class="dropdown notification-list topbar-dropdown">
                 <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="fe-bell noti-icon"></i>
-                    <span class="badge badge-danger rounded-circle noti-icon-badge">9</span>
+                    <span class="badge badge-danger rounded-circle noti-icon-badge">{{ $notification_count }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-lg">
 
@@ -24,82 +24,35 @@
                     <div class="dropdown-item noti-title">
                         <h5 class="m-0">
                             <span class="float-right">
-                                <a href="" class="text-dark">
+                               {{--  <a href="" class="text-dark">
                                     <small>Clear All</small>
-                                </a>
+                                </a> --}}
                             </span>Notification
                         </h5>
                     </div>
 
                     <div class="noti-scroll" data-simplebar>
 
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                            <div class="notify-icon">
-                                <img src="{{ asset('public/assets/images/users/user-1.jpg') }}" class="img-fluid rounded-circle" alt="" /> </div>
-                            <p class="notify-details">Cristina Pride</p>
-                            <p class="text-muted mb-0 user-msg">
-                                <small>Hi, How are you? What about our next meeting</small>
-                            </p>
-                        </a>
+                     
 
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <div class="notify-icon bg-primary">
-                                <i class="mdi mdi-comment-account-outline"></i>
-                            </div>
-                            <p class="notify-details">Caleb Flakelar commented on Admin
-                                <small class="text-muted">1 min ago</small>
-                            </p>
-                        </a>
+                        @if(!empty($notification))
+                            @foreach($notification as $note)
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-primary">
+                                        <i class="mdi mdi-comment-account-outline"></i>
+                                    </div>
+                                    <p class="notify-details">{{ $note->title }}</p>
+                                    <p class="text-muted mb-0 user-msg">
+                                        <small>{{ $note->details }}</small>
+                                    </p>
+                                </a>
+                            @endforeach
+                        @endif
+                        
 
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <div class="notify-icon">
-                                <img src="{{ asset('public/assets/images/users/user-4.jpg') }}" class="img-fluid rounded-circle" alt="" /> </div>
-                            <p class="notify-details">Karen Robinson</p>
-                            <p class="text-muted mb-0 user-msg">
-                                <small>Wow ! this admin looks good and awesome design</small>
-                            </p>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <div class="notify-icon bg-warning">
-                                <i class="mdi mdi-account-plus"></i>
-                            </div>
-                            <p class="notify-details">New user registered.
-                                <small class="text-muted">5 hours ago</small>
-                            </p>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <div class="notify-icon bg-info">
-                                <i class="mdi mdi-comment-account-outline"></i>
-                            </div>
-                            <p class="notify-details">Caleb Flakelar commented on Admin
-                                <small class="text-muted">4 days ago</small>
-                            </p>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <div class="notify-icon bg-secondary">
-                                <i class="mdi mdi-heart"></i>
-                            </div>
-                            <p class="notify-details">Carlos Crouch liked
-                                <b>Admin</b>
-                                <small class="text-muted">13 days ago</small>
-                            </p>
-                        </a>
                     </div>
 
-                    <!-- All-->
-                    <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
-                        View all
-                        <i class="fe-arrow-right"></i>
-                    </a>
+                   
 
                 </div>
             </li>
@@ -219,7 +172,7 @@
                                 <a href="{{ URL::route('user.wallet.transfer.to.another') }}">Transfer to Account</a>
                             </li>
 							<li>
-                                <a href="withdraw_bank.php">Withdraw Money</a>
+                                <a href="{{ URL::route('user.wallet.withdraw.index') }}">Withdraw Money</a>
                             </li>
                             <li>
                                 <a href="{{ URL::route('user.wallet.all_transactions.index') }}">Transactions</a>
@@ -229,12 +182,12 @@
                     </div>
                 </li>
 				
-				<li>
+				{{-- <li>
                     <a href="#">
                         <i data-feather="gift"></i>
                         <span> Referral Bonus  </span>
                     </a>
-                </li>
+                </li> --}}
 				
 				
 				

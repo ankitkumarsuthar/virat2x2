@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use App\DB\User;
 use App\DB\UserMaster;
 use App\DB\RoleUser;
+use App\DB\Wallet;
 use App\Http\Requests\Admin\UserRequest;
 use App\Commands\Admin\UserStoreCommand;
 
@@ -56,6 +57,10 @@ class ActivationController extends Controller
             $record                  = UserMaster::find($id);
             if(!empty($record))
             {
+                if(!empty($record->referral_sponser_id))
+                {
+                    $referal_add = Wallet::addReferalPayment($record->referral_sponser_id);
+                }
                 $record->account_status   = 1;
                 $result = $record->save();
             } else {
@@ -135,8 +140,14 @@ class ActivationController extends Controller
     public function delete(Request $request, $id)
     {
         try {
-            $data['id']     = $id;            
-            $result         = $this->dispatch(new UserStoreCommand($data, $request, 'delete'));
+            $data['id']     = $id;
+
+            $user_master_for_delete = UserMaster::find($id);
+            $user_record             = User::where('user_master_id', $user_master_for_delete['id'])->first();            
+            $user = Sentinel::findById($user_record['id']);
+            $user->delete();
+
+            $result             = $user_master_for_delete->delete();  
             if ($result) {
                 return response()->json([
                     'delete-user'           => true,

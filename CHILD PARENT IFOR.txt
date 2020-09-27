@@ -25,3 +25,7 @@ LEVEL 1: 10 VIDEO WATCH == 25 JAMA   BONUS: PEND DRIVE ON COMPLETE
 
 
 MARA SPONSER THI AAVE TO MANE PAISA MADE
+
+withdraw_requests
+php artisan make:migration create_withdraw_requests_table --table=withdraw_requests
+php artisan make:migration add_fk_in_withdraw_requests_table --table=withdraw_requests

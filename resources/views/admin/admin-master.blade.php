@@ -3,6 +3,12 @@
     <head>  
         @include("admin.partials.master-header")        
         @yield('admin-page-level-css')
+        <style type="text/css">
+            .help-block-error{
+                color: red !important;
+                font-family: inherit;
+            }
+        </style>
     </head>
 
     <body>

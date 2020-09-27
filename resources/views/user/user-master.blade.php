@@ -3,7 +3,12 @@
     <head>
         @include("user.partials.user-header")        
         @yield('user-page-level-css')
-
+        <style type="text/css">
+            .help-block-error{
+                color: red !important;
+                font-family: inherit;
+            }
+        </style>
     </head>
 
     <body>

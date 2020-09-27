@@ -30,6 +30,10 @@ class User extends Model
         'last_name'
     ];
 
+    public function usermaster() {
+        return $this->hasOne('App\DB\UserMaster', 'id', 'user_master_id');
+    }
+
     public static function checkUserIsAdmin($user_id)
     {
         $status = false;

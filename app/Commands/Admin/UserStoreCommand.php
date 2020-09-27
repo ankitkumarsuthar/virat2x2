@@ -71,9 +71,7 @@ class UserStoreCommand extends Command
                         $spnser_d = [];
                         $spnser_all = [];
 
-                        $sponser_all_child_list = User::getUserChildList($this->data['user_sponser_id'],$spnser_d);
-                        
-                        // dd(count($sponser_all_child_list));
+                        $sponser_all_child_list = User::getUserChildList($this->data['user_sponser_id'],$spnser_d);                   
 
                         if(count($sponser_all_child_list) == 0)
                         {
@@ -147,7 +145,8 @@ class UserStoreCommand extends Command
                     $record->mobile             = $this->data['user_mobile'];
                     $record->address            = $this->data['user_address'];
                     $record->self_sponsor_key   = rand();
-                    $record->account_status     = 1;
+                    // $record->account_status     = 1;
+                    $record->account_status     = 0;
 
                     if(!empty($sponser_detail['sponser_for_current_insert']))
                     {
@@ -169,6 +168,7 @@ class UserStoreCommand extends Command
                         $record->sponser_unique_id  = $sponser_detail['sponser_for_current_insert']['self_sponsor_key'];
                         $record->sponser_mobile     = $sponser_detail['sponser_for_current_insert']['mobile'];
                         $record->sponsor_id         = $sponser_detail['sponser_for_current_insert']['id'];
+                        $record->referral_sponser_id = $this->data['user_sponser_id']; 
                     }
 
                     
@@ -191,37 +191,24 @@ class UserStoreCommand extends Command
 
         } else if ($this->operation == 'edit') {
 
-            $record                 = User::find($this->data['id']);
-            $record->update_by      = $user->id;
-            
-            if(!empty($this->data['mobile_number']))
-            {
-                $record->mobile_number  = $this->data['mobile_number'];
-            }
+            $record                 = User::find($this->data['user_data']['id']);                        
+            $record->save();          
 
-            $record->first_name     = $this->data['first_name'];
-            $record->last_name      = $this->data['last_name'];
-            $record->email          = $this->data['email'];
-
-            if ($this->data['password'] != '' || $this->data['password'] != null) {
-                $record->password = \Hash::make($this->data['password']);
-            }
-
-            $record->company_name              = $this->data['company_name'];
-            $record->chamber_commerce_number   = $this->data['chamber_commerce_number'];  
-            $record->payment_by_invoice        = isset($this->data['payment_by_invoice']) ? ($this->data['payment_by_invoice']) : '0';
-
-            $record->status         = isset($this->data['status']) ? ($this->data['status']) : '0';
-            $result = $record->save();
+            $master_record = UserMaster::find($record['user_master_id']);            
+            $master_record->name              = $this->data['user_name'];
+            $master_record->mobile              = $this->data['user_mobile'];
+            $master_record->address              = $this->data['user_address'];            
+            $result = $master_record->save();
 
             return $result;
 
         } else if ($this->operation == 'delete') {
-            $record     = User::find($this->data['id']);
-            $user_data  = User::where('user_master_id', $record->id)->first();            
-            $user       = Sentinel::findById($user_data['id']);
+
+            $record             = User::find($this->data['id']);            
+            $user_master_data  = UserMaster::where('id', $record->user_master_id)->first();            
+            $user               = Sentinel::findById($record['id']);
             $user->delete();
-            $result     = $record->delete();            
+            $result             = $user_master_data->delete();            
             return $result;
         }
     }

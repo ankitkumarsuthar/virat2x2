@@ -8,6 +8,7 @@ use Sentinel;
 use Illuminate\Support\Facades\Session;
 use App\DB\UserMaster;
 use App\DB\User;
+use App\DB\Notification;
 
 class TreeViewController extends Controller
 {
@@ -105,13 +106,18 @@ class TreeViewController extends Controller
             $data['user']           = Sentinel::getUser();
             $data['tree_user']           = UserMaster::where('id', $id)->first();
             // $data['tree_user_all']           = UserMaster::whereNull('mlm_side')->whereNotNull('self_sponsor_key')->get();
-
-
+            $all_children = User::getUserChildList($data['tree_user']['self_sponsor_key'],$spnser_d);
+            foreach ($all_children as $child) {
+                $may = Notification::getTreeUlLi($child);                
+            }
+            dd('te');
             // User::getChildForTreeOneByOne($data['tree_user']['self_sponsor_key'], $spnser_f);
             
             $tree_user_1st_level           = UserMaster::where('sponser_unique_id',$data['tree_user']['self_sponsor_key'])->pluck('self_sponsor_key','id');
+            $tree_user_1st_level_1           = UserMaster::where('sponser_unique_id',$data['tree_user']['self_sponsor_key'])->pluck('name');
 
             $tree_user_2st_level           = UserMaster::whereIn('sponser_unique_id',$tree_user_1st_level)->pluck('self_sponsor_key','id');
+            $tree_user_2st_level_2           = UserMaster::whereIn('sponser_unique_id',$tree_user_1st_level)->pluck('name');
 
             $tree_user_3st_level           = UserMaster::whereIn('sponser_unique_id',$tree_user_2st_level)->pluck('self_sponsor_key','id');
 
@@ -123,9 +129,10 @@ class TreeViewController extends Controller
 
             $tree_user_7st_level           = UserMaster::whereIn('sponser_unique_id',$tree_user_6st_level)->pluck('self_sponsor_key','id');
 
+            // dd($tree_user_3st_level);
 
-            $data['level1'] = $tree_user_1st_level;
-            $data['level2'] = $tree_user_2st_level;
+            $data['level1'] = $tree_user_1st_level_1;
+            $data['level2'] = $tree_user_2st_level_2;
             $data['level3'] = $tree_user_3st_level;
             $data['level4'] = $tree_user_4st_level;
             $data['level5'] = $tree_user_5st_level;
@@ -137,6 +144,7 @@ class TreeViewController extends Controller
 
 
             $data['all_children'] = User::getUserChildList($data['tree_user']['self_sponsor_key'],$spnser_d);
+            dd($data['all_children']);
             $data['all_children_data'] = UserMaster::select('id','mlm_side')->whereIn('self_sponsor_key',$data['all_children'])->orderBy('id','ASC')->get()->toArray();
 
             // dd($data['all_children_data']);

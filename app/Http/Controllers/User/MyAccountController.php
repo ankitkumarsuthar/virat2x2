@@ -8,6 +8,7 @@ use Sentinel;
 use Illuminate\Support\Facades\Session;
 use App\DB\UserMaster;
 use App\DB\User;
+use App\DB\Level;
 use App\Commands\User\UserAccountStoreCommand;
 
 class MyAccountController extends Controller
@@ -26,6 +27,7 @@ class MyAccountController extends Controller
             $data['title']          = 'My Account';
             $data['page_title']     = 'My Account';
             $data['user']           = Sentinel::getUser();
+            $data['user_level_data']= Level::getUserCurrentLevel($data['user']);             
             $data['user_master']    = UserMaster::getUserMaster($data['user']['user_master_id']);    
             return \View::make($this->view.'index', $data); 
 

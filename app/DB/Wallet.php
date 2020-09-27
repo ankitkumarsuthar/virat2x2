@@ -4,7 +4,9 @@ namespace App\DB;
 
 use Illuminate\Database\Eloquent\Model;
 use App\DB\UserMaster;
+use App\DB\User;
 use App\DB\RoleUser;
+use App\DB\RefferalBonusSetting;
 use Sentinel;
 
 /* 
@@ -78,6 +80,62 @@ class Wallet extends Model
 	 		return true;
 	 	} 	
 	 }
+
+    public static function addApproveWithdrawal($user_master, $user, $withdrawRequests)
+     {  
+        $admin_user = Sentinel::getUser();
+        $record                   = new Wallet();
+        $record->create_by        = $admin_user->id;
+        $record->user_id          = $user->id;
+        $record->user_master_id   = $user_master->id;        
+        $record->paid_to_id       = $user->id;        
+        $record->pay_amount       = $withdrawRequests->withdraw_amount;   
+        $record->payment_detail   = 'Withdrawl Approved !!';
+        $record->entry_date       = date('Y-m-d');
+        $record->is_earning_money = 0;
+        $record->sending_or_receiving = 0;
+        $record->payment_status     = 4;
+        $result                   = $record->save();
+        
+
+        $user_master_record = UserMaster::find($user_master->id);
+        // $user_master_record->total_income =  $user_master->total_income + $level->level_payment;
+        $user_master_record->wallet_balance =  $user_master->wallet_balance - $withdrawRequests->withdraw_amount;
+        $user_master_record->save();
+
+        return $result;
+    }
+
+     public static function addReferalPayment($user_master_id)
+     {  
+        $admin_user = Sentinel::getUser();
+        $refferl = RefferalBonusSetting::first();
+        $user_master_record = UserMaster::where('self_sponsor_key', $user_master_id)->first();
+        $user_record = User::where('user_master_id',$user_master_record->id)->first();        
+        // dd($user_record, $user_master_record->id);
+        $record                             = new Wallet();
+        $record->create_by                  = $admin_user->id;
+        $record->user_id                    = $user_record->id;
+        $record->user_master_id             = $user_master_record->id;        
+        $record->paid_to_id                 = $user_record->id;        
+        $record->receiving_money_user_id    = $user_record->id;        
+        $record->pay_amount                 = $refferl->refferal_bonus_amount;   
+        $record->payment_detail             = 'Refferal Bonus !!';
+        $record->entry_date                 = date('Y-m-d');
+        $record->is_earning_money           = 0;
+        $record->sending_or_receiving       = 1;
+        $record->is_it_reference_bonous     = 1;
+        $record->payment_status             = 1;
+        $result                             = $record->save();
+        
+
+        $user_master_record1 = UserMaster::find($user_master_record->id);
+        $user_master_record1->total_income      =  $user_master_record->total_income + $refferl->refferal_bonus_amount;
+        $user_master_record1->wallet_balance    =  $user_master_record->wallet_balance + $refferl->refferal_bonus_amount;
+        $user_master_record1->save();
+
+        return $result;
+    }
 
      public static function currentBalance($user_master)
      {

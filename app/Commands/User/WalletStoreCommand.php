@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\DB\User;
 use App\DB\UserMaster;
 use App\DB\Wallet;
+use App\DB\WithdrawRequests;
 use Carbon\Carbon;
 use Sentinel;
 
@@ -75,17 +76,25 @@ class WalletStoreCommand extends Command
             $user_master_record->wallet_balance =  $sender_user_master->wallet_balance - $this->data['transfer_amount'];
             $user_master_record->save();
 
+            $receiver_user_master_record = UserMaster::find($receiver_user_master->id);
+            $receiver_user_master_record->total_income =  $receiver_user_master->total_income + $this->data['transfer_amount'];
+            $receiver_user_master_record->wallet_balance =  $receiver_user_master->wallet_balance + $this->data['transfer_amount'];
+            $receiver_user_master_record->save();
+
             return $result;
 
-        } else if ($this->operation == 'edit') {
-            // dd($this->data);
-            $record1                 = Videos::find(1);
-            $record1->video_link   = $this->data['video_link_1'];            
-            $record1->save();
-          
-
-            return true;
-
+        } else if ($this->operation == 'withdraw_requests') {            
+            $user_master    = UserMaster::getUserMaster($user['user_master_id']); 
+            $record                               = new WithdrawRequests();
+            $record->user_id                      = $user->id;
+            $record->user_master_id               = $user_master->id;
+            $record->withdraw_option              = $this->data['withdraw_option'];
+            $record->withdraw_amount              = $this->data['withdraw_amount'];
+            $record->withdraw_detail              = "Request sent !!!";
+            $record->withdraw_request_date        = date('Y-m-d');
+            $record->withdraw_status              = 0;
+            $result =$record->save();
+            return $result;            
         } else if ($this->operation == 'delete') {            
         }
     }

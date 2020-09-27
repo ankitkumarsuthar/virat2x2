@@ -1,8 +1,7 @@
-@extends('user.user-master')
+@extends('admin.admin-master')
 
 
-@section('user-page-level-css')
-<style type="text/css"></style>
+@section('admin-page-level-css')
 <link href="{{ asset('public/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('public/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('public/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
@@ -15,31 +14,33 @@
 
 @section('content')
 
- <div class="content-page">
-<div class="content">
 
-    <!-- Start Content-->
-    <div class="container-fluid">
-        
-         <div class="row">
-            <div class="col-12">
-                <div class="page-title-box">
-                    <h4 class="page-title">Withdraw Money</h4>
+
+
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+           <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                       
+                        <h4 class="page-title">Withdrawal Request</h4>
+                    </div>
                 </div>
-            </div>
-        </div>   
-        <!-- end page title -->
-    
-       @include("user.wallet.partials.withdraw_money_form")
-       @include("user.wallet.partials.withdraw_request_table")
-        
-    </div> <!-- container -->
+            </div>                      
 
-</div> <!-- content -->
+           
+            @include("admin.withdrawal.partials.table")
 
-<!-- Footer Start -->
-@include("user.partials.user-footer-text")  
-<!-- end Footer -->
+
+        </div> <!-- container -->
+
+    </div> <!-- content -->
+
+    @include("admin.partials.master-footer")  
 
 </div>
 
@@ -47,7 +48,8 @@
 
 @stop
 
-@section('page-level-js')
+@section('admin-page-level-js')
+
 <script src="{{ asset('public/assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('public/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('public/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
@@ -62,54 +64,6 @@
 <script src="{{ asset('public/assets/libs/pdfmake/build/pdfmake.min.js') }}"></script>
 <script src="{{ asset('public/assets/libs/pdfmake/build/vfs_fonts.js') }}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-<script type="text/javascript">
-  
-$(document).ready(function() {
-
-    var form1 = $('#withdraw_money');
-    var error1 = $('.alert-danger', form1);
-    $("#withdraw_money").validate({
-        errorElement: 'span', //default input error message container
-        errorClass: 'help-block help-block-error', // default input error message class
-        invalidHandler: function(event, validator) { //display error alert on form submit
-            error1.show();
-            window.scrollTo(error1, -200);
-        },
-        highlight: function(element) { // hightlight error inputs
-            $(element).addClass('is-invalid');
-            $(element).closest('.form-group').addClass('validated'); // set error class to the control group
-        },
-        unhighlight: function(element) { // revert the change done by hightlight
-            $(element).removeClass('is-invalid');
-            $(element).closest('.form-group').removeClass('validated'); // set error class to the control group
-        },
-        success: function(element) {
-            $(element).removeClass('is-invalid');
-            $(element).closest('.form-group').removeClass('validated'); // set success class to the control group
-        },
-        rules: {           
-            withdraw_option: {
-                required: true
-            }, 
-            withdraw_amount : {
-                required: true,
-                number: true
-            }
-        },
-        messages: {                         
-            withdraw_option : {
-                required : 'Withdraw option selection is a required field.'
-            },              
-            withdraw_amount: {
-               required : 'Enter amount of withdraw.',
-               number : 'Invalid amount detail.'              
-            }
-        }
-    });
-});
-
-</script>
 
 <script type="text/javascript">
     var table = '';
@@ -136,13 +90,17 @@ $(document).ready(function() {
                 searchDelay: 500,
                 processing: true,
                 serverSide: true,
-                ajax: '{{ URL::route("user.wallet.request.getlist") }}',      
+                ajax: '{{ URL::route("admin.withdrawal.getlist") }}',      
                 columns: [
-                    { data: 'withdraw_request_date', name: 'withdraw_request_date', width: 300 }, 
-                    { data: 'withdraw_detail', name: 'withdraw_detail', width: 300 }, 
+                    { data: 'id', name: 'id', width: 100 , "visible": true }, 
+                    { data: 'self_sponsor_key', name: 'self_sponsor_key', width: 300 }, 
+                    { data: 'usermaster', name: 'usermaster', width: 300 }, 
+                    { data: 'detail', name: 'detail', width: 300 }, 
                     { data: 'withdraw_amount', name: 'withdraw_amount', width: 300 }, 
                     { data: 'withdraw_option', name: 'withdraw_option', width: 300 }, 
                     { data: 'withdraw_status', name: 'withdraw_status', width: 300 }, 
+                    // { data: 'created_at', name: 'created_at', width: 300 }, 
+                    { data: 'action', name: 'action', width: 300 }, 
                 ], 
                 initComplete: function() {
                     // unBlockPage();
@@ -153,6 +111,43 @@ $(document).ready(function() {
                 },
             });    
     }
+
+    function deleteClient(id)
+    {
+        var url = $("#delete_"+id).data('url');   
+
+        swal({
+              title: "Are you sure?",
+              text: "Once rejceted, you will not be able to recover this request!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((result) => {
+                console.log(result);
+              if (result) {
+                $.ajax({
+                    type : 'GET',
+                    url : url,
+                    success: function(data) {
+                        if( data.reqstatus == 'success' ) {        
+                            //swal.fire("", data.msg, "success");
+                            showFormMessage('alert alert-success fade show', 'fa fa-check-circle', data.message);
+                            loadClientList();
+                        } else {
+                            showFormMessage('alert alert-danger fade show', 'fa fa-exclamation-circle', data.message);
+                        }
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        
+                    }
+                });
+              } 
+            }); 
+    }
+
+
+   
 </script>
 
 @stop

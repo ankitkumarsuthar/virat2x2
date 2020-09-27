@@ -113,6 +113,7 @@ class UserRegistrationStoreCommand extends Command
                         $record->sponser_unique_id  = $sponser_detail['sponser_for_current_insert']['self_sponsor_key'];
                         $record->sponser_mobile     = $sponser_detail['sponser_for_current_insert']['mobile'];
                         $record->sponsor_id         = $sponser_detail['sponser_for_current_insert']['id'];                    
+                        $record->referral_sponser_id = $this->data['user_sponser_id'];                    
                     }
                     $result                     = $record->save();
                     $user_record->user_master_id     = $record->id;

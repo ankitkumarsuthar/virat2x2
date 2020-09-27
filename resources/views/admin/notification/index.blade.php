@@ -24,17 +24,26 @@
         <div class="container-fluid">
             
             <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box">                       
-                        <h4 class="page-title">All Users</h4>
-                    </div>
-                </div>
-            </div>     
-            <!-- end page title -->                       
+             <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                   
+                                    <h4 class="page-title">Notification</h4>
+                                </div>
+                            </div>
+                        </div>     
+            <!-- end page title --> 
 
-    
-            @include("admin.user.partials.table")
+            <div class="row">
+                 <div class="col-12">
+                    <div id="form-message">
+                    </div>
+                    @include("admin.notification.partials.form")
+                    @include("admin.notification.partials.table")
+                 </div>
+            </div>                      
+
+           
 
 
         </div> <!-- container -->
@@ -74,50 +83,48 @@
 
     function loadClientList()
     {
+        // table.destroy();   
         if(table != '') {
             table.destroy();
-        }
-
-            table = $("#datatable-buttons").DataTable({
-            lengthChange: !1,
-            dom: 'Bfrtip',
+        } 
+        table = $("#datatable-buttons").DataTable({
+                lengthChange: !1,    
+                   dom: 'Bfrtip',
             buttons: [
                 'copy',
                 'print',
                 'pdf'
             ],
-            responsive: true,
-            searchDelay: 500,
-            processing: true,
-            serverSide: true,
-            ajax: '{{ URL::route("admin.user.getlist") }}',      
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', width: 100 }, 
-                { data: 'self_sponsor_key', name: 'self_sponsor_key', width: 200 }, 
-                { data: 'name', name: 'name', width: 100 }, 
-                { data: 'status', name: 'status', width: 100 }, 
-                { data: 'mobile', name: 'mobile', width: 200 },                
-                { data: 'wallet', name: 'wallet', width: 200 },                
-                { data: 'action', name: 'action', width: 300 }, 
-            ], 
-            initComplete: function() {
-                // unBlockPage();
-            },
-            language: { paginate: { previous: "<i class='mdi mdi-chevron-left'>", next: "<i class='mdi mdi-chevron-right'>" } },
-            drawCallback: function () {
-                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
-            },
-        });     
+                "order": [[ 0, "desc" ]],
+                 responsive: true,
+                searchDelay: 500,
+                processing: true,
+                serverSide: true,
+                ajax: '{{ URL::route("admin.notification.getlist") }}',      
+                columns: [
+                    { data: 'title', name: 'title', width: 300 , "visible": true }, 
+                    { data: 'details', name: 'details', width: 600 }, 
+                    
+                    // { data: 'created_at', name: 'created_at', width: 300 }, 
+                    { data: 'action', name: 'action', width: 100 }, 
+                ], 
+                initComplete: function() {
+                    // unBlockPage();
+                },
+                language: { paginate: { previous: "<i class='mdi mdi-chevron-left'>", next: "<i class='mdi mdi-chevron-right'>" } },
+                drawCallback: function () {
+                    $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+                },
+            });    
     }
 
-    
     function deleteClient(id)
     {
         var url = $("#delete_"+id).data('url');   
 
         swal({
               title: "Are you sure?",
-              text: "Once deleted, you will not be able to recover this user detail agai!",
+              text: "Once deleted, you will not be able to recover this notification file!",
               icon: "warning",
               buttons: true,
               dangerMode: true,
@@ -144,6 +151,56 @@
               } 
             }); 
     }
+
+
+   
+</script>
+
+<script type="text/javascript">
+  
+$(document).ready(function() {
+
+
+    var form1 = $('#notification_form');
+    var error1 = $('.alert-danger', form1);
+    $("#notification_form").validate({
+        errorElement: 'span', //default input error message container
+        errorClass: 'help-block help-block-error', // default input error message class
+        invalidHandler: function(event, validator) { //display error alert on form submit
+            error1.show();
+            window.scrollTo(error1, -200);
+        },
+        highlight: function(element) { // hightlight error inputs
+            $(element).addClass('is-invalid');
+            $(element).closest('.form-group').addClass('validated'); // set error class to the control group
+        },
+        unhighlight: function(element) { // revert the change done by hightlight
+            $(element).removeClass('is-invalid');
+            $(element).closest('.form-group').removeClass('validated'); // set error class to the control group
+        },
+        success: function(element) {
+            $(element).removeClass('is-invalid');
+            $(element).closest('.form-group').removeClass('validated'); // set success class to the control group
+        },
+        rules: {
+            title: {
+                required: true                
+            }, 
+            details : {
+                required: true
+            }
+        },
+        messages: {
+            title: {
+                required: 'Title is a required field.'
+            },             
+            details : {
+                required : 'Detail is a required field.'
+            }
+        }
+    });
+});
+
 </script>
 
 @stop
