@@ -154,7 +154,7 @@
                 </li>
 				
 				<li>
-                    <a href="tree.php">
+                    <a href="{{ URL::route('user.mlm_tree_view') }}">
                         <i data-feather="share-2"></i>
                         <span> Downline Tree </span>
                     </a>

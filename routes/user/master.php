@@ -6,5 +6,6 @@
 	include "mlm/mlm_route.php";
 	include "work/work_route.php";
 	include "wallet/wallet_route.php";
+	include "tree/tree_route.php";
 	
 ?>

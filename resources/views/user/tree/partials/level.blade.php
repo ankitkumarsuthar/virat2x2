@@ -9,10 +9,10 @@
                @foreach($tree_v as $tree)                
               <ul>
                     <li>
-                         <a href="#"> {{ $tree['name'] }}</a>
+                         <a href="#"> {{ $tree['id'] }}</a>
                     
                      @if(!empty($tree['child']))
-                        {!! \App\Http\Controllers\Admin\TreeViewController::subChilds($tree['child']) !!}
+                        {!! \App\Http\Controllers\User\TreeViewController::subChilds($tree['child']) !!}
                     @endif
                     
                     </li>
