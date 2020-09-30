@@ -57,17 +57,18 @@ class Notification extends Model
 	 		}
 	 		
 	 		$html = '<li>
-                        <a href="#">'.$parent_data['name'].'</a>
+                        <a href="#">'.$parent_data['id'].'</a>
                         <ul>
                             <li>
-                                <a href="#">'.@$left_user['name'].'</a>
+                                <a href="#">'.@$left_user['id'].'</a>
                             </li>
                             <li>
-                                <a href="#">'.@$right_user['name'].'</a>
+                                <a href="#">'.@$right_user['id'].'</a>
                             </li>
                         </ul>
                     </li>';
                     // dd($html);
+                    return $html;
 	 }
 
    

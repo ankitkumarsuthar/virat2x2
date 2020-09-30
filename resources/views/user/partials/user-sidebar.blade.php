@@ -71,21 +71,21 @@
         <div class="logo-box">
             <a href="index.html" class="logo logo-dark text-center">
                 <span class="logo-sm">
-                    <img src="{{ asset('public/assets/images/logo-sm.png') }}" alt="" height="22">
+                    <img src="{{ asset('public/assets/images/logo-sm.png') }}" alt="" height="70">
                     <!-- <span class="logo-lg-text-light">UBold</span> -->
                 </span>
                 <span class="logo-lg">
-                    <img src="{{ asset('public/assets/images/logo-dark.png') }}" alt="" height="20">
+                    <img src="{{ asset('public/assets/images/logo-dark.png') }}" alt="" height="70">
                     <!-- <span class="logo-lg-text-light">U</span> -->
                 </span>
             </a>
 
             <a href="index.html" class="logo logo-light text-center">
                 <span class="logo-sm">
-                    <img src="{{ asset('public/assets/images/logo-sm.png') }}" alt="" height="22">
+                    <img src="{{ asset('public/assets/images/logo-sm.png') }}" alt="" height="70">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{ asset('public/assets/images/logo-light.png') }}" alt="" height="20">
+                    <img src="{{ asset('public/assets/images/logo-light.png') }}" alt="" height="70">
                 </span>
             </a>
         </div>

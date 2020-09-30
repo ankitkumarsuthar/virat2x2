@@ -3,27 +3,37 @@
         <div class="card">
             <div class="card-body">
 
-             <div class="tree">
+             {{--  --}}
+
+            <div class="tree">
+                @foreach($tree_v as $tree)                
+              
+                    <li>
+                         <a href="#"> {{ $tree['self_sponsor_key'] }}</a>
+                    <ul> 
+                     @if(!empty($tree['child']))
+                        {!! \App\Http\Controllers\Admin\TreeViewController::viewsubcat($tree['child']) !!}
+                    @endif
+                    </ul>
+                    </li>
+                   
+              
+                @endforeach
+            </div>
+
+            <div class="tree">
+
+                {!!  $ulLI !!}
                 <ul>
                     <li>
                         <a href="#">Parent</a>
                         <ul>
-                        {!! $view_ul_li !!} 
-                        </ul>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a href="#">{{ $tree_user->name }}</a>
-                        <ul>
-                            {{-- LEVEL 1 USER CHILE --}}
-                            <li>               
-                            {{-- {{ dd($level2) }}                                              --}}
-                                <a href="#">{{ $level1[0] }}</a>
+                            <li>
+                                <a href="#">A</a>
                                 <ul>
                                     <li>
-                                        <a href="#">{{ $level2[0] }}</a>
-                                        <ul>    
+                                        <a href="#">Grand Child</a>
+                                        <ul>
                                             <li>
                                                 <a href="#">Grand Child</a>
                                                 <ul>
@@ -37,29 +47,127 @@
                                             </li>
                                             <li>
                                                 <a href="#">Grand Child</a>
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                </ul>
                                             </li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="#">{{ $level2[1] }}</a>
+                                        <a href="#">Grand Child</a>
+                                        <ul>
+                                            <li>
+                                                <a href="#">Grand Child</a>
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#">Grand Child</a>
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
-                            </li>                            
+                            </li>
                             <li>
-                                <a href="#">{{ $level1[1] }}</a>
+                                <a href="#">B</a>
                                 <ul>
                                     <li>
-                                        <a href="#">{{ $level2[2] }}</a>
+                                        <a href="#">Grand Child</a>
+                                        <ul>
+                                            <li>
+                                                <a href="#">Grand Child</a>
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#">Grand Child</a>
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
                                     </li>
                                     <li>
-                                        <a href="#">{{ $level2[3] }}</a>
+                                        <a href="#">Grand Child</a>
+                                        <ul>
+                                            <li>
+                                                <a href="#">Grand Child</a>
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#">Grand Child3</a>
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#">Grand Child</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Grand Child</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                        <ul>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Grand Child</a>
+                                                    </li>
+                                                </ul>
+                                                    </li>
+                                                </ul>
+
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
                 </ul>
-            </div>   
+            </div>
+
             </div> <!-- end card body-->
         </div> <!-- end card -->
     </div><!-- end col-->

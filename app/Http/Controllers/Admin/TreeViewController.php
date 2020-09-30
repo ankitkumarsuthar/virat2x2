@@ -17,6 +17,50 @@ class TreeViewController extends Controller
     public function __construct() {
         $this->view             = 'admin.tree.';                  
     }
+    public function parent($baseUser)
+    {
+      
+      $parent = array();
+      $parent[] = array(
+          'self_sponsor_key' => $baseUser->self_sponsor_key,
+          'sponser_unique_id' => $baseUser->sponser_unique_id,
+          'id' => $baseUser->id,
+          'child' => $this->childs($baseUser->self_sponsor_key),
+        );
+      return $parent;
+    }
+
+    public function childs($self_sponsor_key)
+    { 
+     
+        $result = \DB::table('user_master')->whereNotNull('self_sponsor_key')->where('sponser_unique_id',$self_sponsor_key)->get()->toArray();
+        $childs = array();
+      
+      foreach ($result as $key => $value) {
+        $childs[] = array(
+          'self_sponsor_key' => $value->self_sponsor_key,
+          'sponser_unique_id' => $value->sponser_unique_id,
+          'id' => $value->id,
+          'child' => $this->childs($value->self_sponsor_key),
+        );
+      }
+      return $childs;
+    }
+    public static function viewsubcat($categories)
+    {
+      $html = '<ul>';
+      foreach($categories as $category){
+
+        $html .= '<li><a href="#">'.$category['self_sponsor_key'].'</a></li>';
+        
+        if( ! empty($category['child'])){
+          $html .= Self::viewsubcat($category['child']);
+        }
+      }
+      $html .= '</ul>';
+      
+      return $html;
+    }
 
     public function index(Request $request)
     {
@@ -30,8 +74,15 @@ class TreeViewController extends Controller
             $data['tree_user']           = UserMaster::whereNull('mlm_side')->whereNotNull('self_sponsor_key')->first();
             $data['tree_user_all']           = UserMaster::whereNull('mlm_side')->whereNotNull('self_sponsor_key')->get();
 
+            $baseUser = \DB::table('user_master')->whereNull('mlm_side')->whereNotNull('self_sponsor_key')->first();
+            $data['tree_v'] = $this->parent($baseUser);
 
-            // User::getChildForTreeOneByOne($data['tree_user']['self_sponsor_key'], $spnser_f);
+            $all_children = User::getUserChildList($data['tree_user']['self_sponsor_key'],$spnser_d);
+            $ulLI = '';
+            foreach ($all_children as $child) {
+                $ulLI .= Notification::getTreeUlLi($child)."";                
+            }
+            $data['ulLI'] = '<ul><li><a href="#">Parent</a>'.$ulLI."</ul>";
             
             $tree_user_1st_level           = UserMaster::where('sponser_unique_id',$data['tree_user']['self_sponsor_key'])->pluck('self_sponsor_key');
 
@@ -87,7 +138,8 @@ class TreeViewController extends Controller
             // dd($data['tree_user'], $data['all_children'], $data['all_children_list']);    
             // dd($data['all_children_list']);    
 
-            return \View::make($this->view.'index', $data); 
+            // return \View::make($this->view.'index', $data); 
+              return \View::make($this->view.'view', $data); 
 
             } catch (Exception $e) {
                 
@@ -107,10 +159,12 @@ class TreeViewController extends Controller
             $data['tree_user']           = UserMaster::where('id', $id)->first();
             // $data['tree_user_all']           = UserMaster::whereNull('mlm_side')->whereNotNull('self_sponsor_key')->get();
             $all_children = User::getUserChildList($data['tree_user']['self_sponsor_key'],$spnser_d);
+            $ulLI = '';
             foreach ($all_children as $child) {
-                $may = Notification::getTreeUlLi($child);                
+                $ulLI .= Notification::getTreeUlLi($child)."";                
             }
-            dd('te');
+            $data['ulLI'] = '<ul><li><a href="#">Parent</a>'.$ulLI."</ul>";
+            // dd($data['ulLI']);
             // User::getChildForTreeOneByOne($data['tree_user']['self_sponsor_key'], $spnser_f);
             
             $tree_user_1st_level           = UserMaster::where('sponser_unique_id',$data['tree_user']['self_sponsor_key'])->pluck('self_sponsor_key','id');
@@ -144,7 +198,7 @@ class TreeViewController extends Controller
 
 
             $data['all_children'] = User::getUserChildList($data['tree_user']['self_sponsor_key'],$spnser_d);
-            dd($data['all_children']);
+            // dd($data['all_children']);
             $data['all_children_data'] = UserMaster::select('id','mlm_side')->whereIn('self_sponsor_key',$data['all_children'])->orderBy('id','ASC')->get()->toArray();
 
             // dd($data['all_children_data']);
