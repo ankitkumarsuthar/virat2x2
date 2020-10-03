@@ -31,7 +31,7 @@ class WorkController extends Controller
             $data['view']           = $this->view;
             $data['user']           = Sentinel::getUser();
             $data['user_master']    = UserMaster::getUserMaster($data['user']['user_master_id']);
-            $data['video_count'] = UserVideo::getUserTodayVideoCount($data['user_master']);
+            $data['video_count'] = UserVideo::getUserTodayVideoCount($data['user']);            
             if($data['video_count'] >= 10)
             {
                 return redirect(route( 'user.work.done' )); 
