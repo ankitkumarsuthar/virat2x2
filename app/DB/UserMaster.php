@@ -5,6 +5,7 @@ namespace App\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\DB\RoleUser;
 use App\DB\Level;
+use App\DB\User;
 
 
 /* 
@@ -73,7 +74,7 @@ class UserMaster extends Model
         } else {
             return true;
         }
-    }
+    }    
 
     public static function checkUserMobile($email)
     {

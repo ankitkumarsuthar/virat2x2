@@ -191,11 +191,19 @@ class UserStoreCommand extends Command
 
         } else if ($this->operation == 'edit') {
 
-            $record                 = User::find($this->data['user_data']['id']);                        
+            $record                     = Sentinel::findUserById($this->data['user_data']['id']);
+            $record->email              = $this->data['user_email'];
+            $record->first_name         = $this->data['user_name'];           
+            $result = $record->save();                       
             $record->save();          
+
+            if($this->data['user_password']){
+                Sentinel::update($record, array('password' =>  $this->data['user_password']));                
+            }            
 
             $master_record = UserMaster::find($record['user_master_id']);            
             $master_record->name              = $this->data['user_name'];
+            $master_record->email              = $this->data['user_email'];
             $master_record->mobile              = $this->data['user_mobile'];
             $master_record->address              = $this->data['user_address'];            
             $result = $master_record->save();

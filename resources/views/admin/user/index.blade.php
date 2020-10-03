@@ -97,6 +97,7 @@
                 { data: 'name', name: 'name', width: 100 }, 
                 { data: 'status', name: 'status', width: 100 }, 
                 { data: 'mobile', name: 'mobile', width: 200 },                
+                { data: 'level', name: 'level', width: 200 },                
                 { data: 'wallet', name: 'wallet', width: 200 },                
                 { data: 'action', name: 'action', width: 300 }, 
             ], 

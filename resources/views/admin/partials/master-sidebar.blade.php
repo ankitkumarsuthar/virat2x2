@@ -143,6 +143,12 @@
                         <span> Notification   </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ URL::route('admin.profile.index') }}">
+                        <i data-feather="user"></i>
+                        <span> Profile   </span>
+                    </a>
+                </li>
 				
 				<li>
                     <a href="{{ URL::route('admin.logout') }}">

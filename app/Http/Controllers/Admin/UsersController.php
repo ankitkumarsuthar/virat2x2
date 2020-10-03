@@ -9,6 +9,7 @@ use DataTables;
 use Illuminate\Support\Facades\Session;
 
 use App\DB\User;
+use App\DB\Level;
 use App\DB\Wallet;
 use App\DB\UserMaster;
 use App\DB\RoleUser;
@@ -43,8 +44,8 @@ class UsersController extends Controller
 
             // dd('$daa');
 
-            $data['title']          = \Lang::get($this->index.'meta_title_lbl');
-            $data['page_title']     = \Lang::get($this->index.'page_title_lbl');
+            $data['title']          = 'User List';
+            $data['page_title']     = 'USer List';
 
             $data['lang']           = $this->index;
             $data['view']           = $this->view;
@@ -66,15 +67,15 @@ class UsersController extends Controller
         try {
             $data = [];
 
-            $data['title']          = \Lang::get($this->add.'meta_title_lbl');
-            $data['page_title']     = \Lang::get($this->add.'page_title_lbl');
+            $data['title']          = 'Add User';
+            $data['page_title']     = 'Add User';
 
             $data['lang']           = $this->add;
             $data['user']           = new User;
             $data['view']           = $this->view;
             // $data['status_list']    = User::getStatusList();
             // $data['role_list']      = Role::getRoleList();
-            // dd('test');
+            // dd($this->view.'add');
 
             return \View::make($this->view.'add', $data);
     	} catch (Exception $e) {
@@ -99,10 +100,10 @@ class UsersController extends Controller
             $result = $this->dispatch(new UserStoreCommand($data, $request, 'new'));
 
             if ($result) {
-                Session::flash('success', \Lang::get($this->index.'add_success_msg'));
+                Session::flash('success', 'User save successfully.');
                 return redirect(route('admin.user.create'));
             } else {
-                Session::flash('error', \Lang::get($this->index.'add_error_msg'));
+                Session::flash('error', 'Fail to save user.');
                 return \Redirect::back()->withInput();
             }
 
@@ -154,7 +155,7 @@ class UsersController extends Controller
     public function update(Request $request)
     {
         try {
-            $data = $request->all();                        
+            $data = $request->all();                                    
             $data['user_data'] = User::where('user_master_id', $data['user_master_id'])->first();            
             $result = $this->dispatch(new UserStoreCommand($data, $request, 'edit'));
 
@@ -233,6 +234,16 @@ class UsersController extends Controller
                     ->addColumn('mobile', function($row) {
                         return $row->usermaster->mobile.'|| '.$row->usermaster->email;
                     }) 
+                    ->addColumn('level', function($row) {
+                        $user_level = Level::getUserCurrentLevel($row);
+                        // dd($user_level);
+                        if(!empty($user_level) && !empty($user_level['current_level']))
+                        {
+                            return $user_level['current_level'];
+                        } else {
+                            return '-';
+                        }
+                    }) 
                     ->addColumn('wallet', function($row) {
                         if($row->usermaster->wallet_balance > 0)
                         {
@@ -260,16 +271,14 @@ class UsersController extends Controller
     }
 
 
-    public function checkEmail(Request $request)
+    public function checkEmail2(Request $request)
     {
         try {
-
-            $data = $request->all();
+            $data = $request->all();          
             
-            $email      = $data['email'];
+            $email      = $data['user_email'];
             $user_id    = $data['id'];
-
-            $result     = User::checkUserEmail($email, $user_id);
+            $result     = User::adminCheckUserEmail2($email, $user_id);
 
             if($result) {
                 echo "true";

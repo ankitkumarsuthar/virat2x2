@@ -84,6 +84,17 @@ class User extends Model
         }
     }
 
+    public static function adminCheckUserEmail2($email, $id)
+    {
+        $count = User::where('email', '=', $email)->where('id', '!=', $id)->count();   
+
+        if($count > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static function checkUserMobile($email)
     {
         $count = User::where('email', '=', $email)->count();
@@ -358,6 +369,16 @@ class User extends Model
 
         return $result_data;
         
+    }
+
+    public static function checkAdminUserEmail($email,$id)
+    {
+        $count = User::where('email', '=', $email)->where('id', '!=', $id)->count();   
+        if($count > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public static function getChildForTreeOneByOne($sponser_key, $child_array)

@@ -2,7 +2,9 @@
 
 
 @section('admin-page-level-css')
-
+<style type="text/css">
+    .error{color: red;}
+</style>
 
 
 @stop
@@ -67,26 +69,23 @@ $(document).ready(function() {
 
     var form1 = $('#edit_user_form');
     var error1 = $('.alert-danger', form1);
-    $("#edit_user_form").validate({
-        errorElement: 'span', //default input error message container
-        errorClass: 'help-block help-block-error', // default input error message class
-        invalidHandler: function(event, validator) { //display error alert on form submit
-            error1.show();
-            window.scrollTo(error1, -200);
-        },
-        highlight: function(element) { // hightlight error inputs
-            $(element).addClass('is-invalid');
-            $(element).closest('.form-group').addClass('validated'); // set error class to the control group
-        },
-        unhighlight: function(element) { // revert the change done by hightlight
-            $(element).removeClass('is-invalid');
-            $(element).closest('.form-group').removeClass('validated'); // set error class to the control group
-        },
-        success: function(element) {
-            $(element).removeClass('is-invalid');
-            $(element).closest('.form-group').removeClass('validated'); // set success class to the control group
-        },
+    $("#edit_user_form").validate({       
         rules: {   
+            user_email: {
+                required: true,
+                email:true,
+                remote: {
+                    url: '{{ URL::route("admin.panel.user.check.email") }}',
+                    type: "post",
+                    data: {
+                         id: '{{ $user->id }}'
+                    }
+                }
+            },
+            user_password : {
+                required        : true, 
+                custompassword  : true
+            },
             user_name: {
                 required: true
             }, 
@@ -95,7 +94,15 @@ $(document).ready(function() {
             }            
             
         },
-        messages: {      
+        messages: {   
+            user_email: {
+                required: 'Email is a required field.',
+                 email: 'Invalid Eamil formage.', 
+                 remote: 'Duplicate email detected.'
+            },             
+            user_password : {
+                required : 'Password is a required field.'
+            },    
             user_name : {
                 required : 'User name is required field.'
             },              

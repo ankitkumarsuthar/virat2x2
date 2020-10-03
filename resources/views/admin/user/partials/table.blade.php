@@ -26,7 +26,8 @@
                             <th>User Id</th>
                             <th>Name</th>
                             <th>Status</th>
-                            <th>Mobile</th>                            
+                            <th>Mobile || Email</th>                            
+                            <th>Level</th>                            
                             <th>Wallet</th>                       
                             <th>Action</th> 
                         </tr>

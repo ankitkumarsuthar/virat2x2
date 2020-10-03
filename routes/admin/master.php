@@ -9,6 +9,7 @@
 	include "videos/videos_route.php";
 	include "withdrawal/withdrawal_route.php";
 	include "notification/notification_route.php";
+	include "profile/profile_route.php";
 	// include "myaccount/myaccount_route.php";
 	// include "mlm/mlm_route.php";
 	

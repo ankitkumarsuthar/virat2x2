@@ -37,9 +37,9 @@ Route::group(['prefix' => '/admin', 'middleware' => 'admincheck'], function () {
             'uses'  => 'Admin\UsersController@getList'
         ]);      
         
-        Route::post('/users/check-email', [
-            'as'    => 'admin.user.check.email',
-            'uses'  => 'Admin\UsersController@checkEmail'
+        Route::post('/panel/users/check-email', [
+            'as'    => 'admin.panel.user.check.email',
+            'uses'  => 'Admin\UsersController@checkEmail2'
         ]);
 
 });
