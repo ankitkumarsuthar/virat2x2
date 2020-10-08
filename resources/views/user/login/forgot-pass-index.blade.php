@@ -18,13 +18,13 @@
                     
                     <div class="text-center w-75 m-auto">
                         <div class="auth-logo">
-                            <a href="index.html" class="logo logo-dark text-center">
+                            <a href="{{ URL::route('user.login') }}" class="logo logo-dark text-center">
                                 <span class="logo-lg">
                                     <img src="{{ asset('public//assets/images/logo-dark.png') }}" alt="" height="70">
                                 </span>
                             </a>
         
-                            <a href="index.html" class="logo logo-light text-center">
+                            <a href="{{ URL::route('user.login') }}" class="logo logo-light text-center">
                                 <span class="logo-lg">
                                     <img src="{{ asset('public/assets/images/logo-light.png') }}" alt="" height="70">
                                 </span>

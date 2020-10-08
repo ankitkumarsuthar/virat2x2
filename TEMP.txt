@@ -1,2 +1,18 @@
 THIS IS FILE FROM GIT
 CHANGE
+
+
+1.self and sponser id show on user dashbord
+
+2. video money is not get insert
+
+3. sponser id.... ampunt after register
+
+4. Forgot password
+
+5 ACTIVATION MAIL
+
+6. REGISTER EMAIL
+
+ADD project in work 
+
