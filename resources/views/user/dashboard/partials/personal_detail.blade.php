@@ -24,6 +24,14 @@
                                 <td>Address</td>
                                 <td>{{ $user_master->address }}</td>
                             </tr>
+                            <tr>
+                                <td>Self ID</td>
+                                <td><b>{{ $user_master->self_sponsor_key }}</b></td>
+                            </tr>
+                            <tr>
+                                <td>Your Sponser ID</td>
+                                <td><b>{{ $user_master->sponser_unique_id }}</b></td>
+                            </tr>
                     </table>        
           
           </div> <!-- end card-body -->

@@ -4,7 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Activation;
+use Reminder;
+use Mail; 
 use Sentinel;
+use App\DB\SendMailModel;
 use App\DB\UserMaster;
 use App\DB\User;
 use App\DB\RoleUser;
@@ -124,18 +128,51 @@ class LoginController extends Controller
     public function sendResetPasswordLink(Request $request)
     {
        try {
-            $data = [];
+            $data           = $request->all();
+            $email          = $data['email'];
+            $userData     = User::where('email', $email)->first();
 
-            $data['title']          = 'Reset Password';
-            $data['page_title']     = 'Reset Password'; 
-
-            dd("working");           
+            if(!$userData) {
+                Session::flash('error', 'Sorry!! Your email is not registered with this webinar. Please try to register with us first');
+                return \Redirect::back();
+            }
+            $user         = Sentinel::findById($userData->id);
+            if(!$user){                     
+                Session::flash('error', 'Sorry!! Your email is not registered with this webinar. Please try to register with us first');
+                return \Redirect::back();
+            } else {
+                $roles = Sentinel::findById($user->id)->roles()->first();
+                // $is_front   = User::checkUserIsFrontUser($user->id);
+                // if(!$is_front) {
+                //     Session::flash('error', 'You are not authorize to use this feature. Please try again with valid email.');
+                //     return \Redirect::back();
+                // }     
+                if($user) {
+                    \DB::table('reminders')->where('user_id', $user->id)->delete(); 
+                    $reminder = Reminder::create($user);
+                    $reset_link = \URL::route('front.reset.password', [ 'user_id' => $user->id, 'code' => $reminder->code ]);
+                    $params = [ 
+                        '{resetlink}'   => $reset_link,
+                        '{name}'        => $user->first_name.' '.$user->first_name,   
+                    ]; 
+                    
+                    $extra          = [ 'user' => $user ];
+                    $mail           = SendMailModel::sendMail('password-forgotten', $params, $user->company_id, $user->email, $extra);
+                    dd($params);
+                }
+            }
+            dd("working", $data, $userData);           
           
             return \View::make($this->view.'forgot-pass-index', $data);
 
         } catch (Exception $e) {
             
         }
+    }
+
+    public function getResetPassword(Request $request, $code)
+    {
+
     }
 
   

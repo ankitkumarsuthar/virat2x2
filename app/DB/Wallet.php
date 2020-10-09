@@ -51,10 +51,12 @@ class Wallet extends Model
 
      public static function addVideoIncome($user_master, $level)
 	 {
-	 	$todayVideoIncome = Wallet::where('entry_date', date('Y-m-d'))->first();
+        $user = Sentinel::getUser();
+	 	$todayVideoIncome = Wallet::where('user_id', $user['id'])->where('entry_date', date('Y-m-d'))->where('payment_status', 2)->first();
+        // dd($todayVideoIncome,'test');
 	 	if(empty($todayVideoIncome))
 	 	{
-	 		$user = Sentinel::getUser();
+	 		
 	        $record                   = new Wallet();
 	        $record->create_by        = $user->id;
 	        $record->user_id          = $user->id;
@@ -65,7 +67,7 @@ class Wallet extends Model
 	        $record->entry_date       = date('Y-m-d');
 	        $record->is_earning_money = 1;
 	        $record->sending_or_receiving = 1;
-	        $record->payment_status = 2;
+	        $record->payment_status = 2;            
 	        $result                   = $record->save();
         	
 
@@ -141,6 +143,7 @@ class Wallet extends Model
      {
         $income = Self::userIncome($user_master);   
         $expence = Self::userExpence($user_master);   
+        
         if($income > $expence)
         {
             $final_total = $income - $expence;
@@ -152,13 +155,15 @@ class Wallet extends Model
 
      public static function userIncome($user_master)
      {
-        $user_total_income = Wallet::where('sending_or_receiving', 1)->sum('pay_amount');   
+        $user = Sentinel::getUser();
+        $user_total_income = Wallet::where('user_id', $user['id'])->where('user_master_id' ,$user_master['id'])->where('sending_or_receiving', 1)->sum('pay_amount');   
         return $user_total_income;        
      }
 
      public static function userExpence($user_master)
      {
-        $user_total_expence = Wallet::where('sending_or_receiving', 0)->sum('pay_amount');   
+        $user = Sentinel::getUser();
+        $user_total_expence = Wallet::where('user_id', $user['id'])->where('user_master_id' ,$user_master['id'])->where('sending_or_receiving', 0)->sum('pay_amount');   
         return $user_total_expence;  
      }
 

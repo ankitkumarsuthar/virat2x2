@@ -113,9 +113,9 @@ class WorkController extends Controller
             $user          = Sentinel::getUser();
             $user_master   = UserMaster::getUserMaster($user['user_master_id']);
             $store_result = UserVideo::saveVideoConter($video_data, $user_master);
-            $user_level_data = Level::getUserCurrentLevel($user);              
-            $leve_data = Level::where('level_title', $user_level_data['current_level'])->first();
-            $income_insert = Wallet::addVideoIncome($user_master, $leve_data);
+            $user_level_data = Level::getUserCurrentLevel($user);   
+            $level_data = Level::where('level_title', $user_level_data['current_level'])->first();            
+            $income_insert = Wallet::addVideoIncome($user_master, $level_data);
 
             Session::put('videoStart', 0);
             Session::put('videoEnd', 1);

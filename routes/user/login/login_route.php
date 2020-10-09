@@ -28,5 +28,10 @@ Route::get('/user/logout', [
     'uses'  => 'User\LoginController@logout'
 ]);
 
+Route::get('/user/{user_id}/reset-password/{code}', [
+    'as'    => 'front.reset.password',
+    'uses'  => 'User\LoginController@getResetPassword'
+]);
+
 
 ?>

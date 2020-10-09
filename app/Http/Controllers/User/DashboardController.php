@@ -32,8 +32,7 @@ class DashboardController extends Controller
             $data['user_level_data']            = Level::getUserCurrentLevel($data['user']); 
             $data['current_balance']            = Wallet::currentBalance($data['user_master']);        
             $data['latest_five_transaction']    = Wallet::where('user_id', $data['user']['id'])->where('user_master_id', $data['user_master']['id'])->orderBy('id','DESC')->limit(5)->get();   
-            $data['video_count'] = UserVideo::getUserTodayVideoCount($data['user_master']);              
-         
+            $data['video_count'] = UserVideo::getUserTodayVideoCount($data['user_master']);                          
             if (Sentinel::check() !== false)
     		{
     		    // User is logged in and assigned to the `$user` variable.
