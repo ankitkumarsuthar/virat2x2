@@ -64,7 +64,11 @@ $(document).ready(function() {
 
     jQuery.validator.addMethod("custompassword", function(value, element) {
         // allow any non-whitespace characters as the host part
-        return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/.test( value );
+        if(value != '') {
+            return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/.test( value );
+        } else {
+            return true;
+        }
     }, 'Password must contains 8 to 16 characters which have 1 uppercase character, 1 lowercase character, 1 number and 1 special character (#?!@$%^&*-). Example: Sumit@123');
 
     var form1 = $('#edit_user_form');
@@ -82,8 +86,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            user_password : {
-                required        : true, 
+            user_password : {               
                 custompassword  : true
             },
             user_name: {
