@@ -1,1 +1,1 @@
-{!! $template_data !!}
+ {{ $template_data }}

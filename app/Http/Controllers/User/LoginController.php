@@ -150,19 +150,20 @@ class LoginController extends Controller
                 if($user) {
                     \DB::table('reminders')->where('user_id', $user->id)->delete(); 
                     $reminder = Reminder::create($user);
-                    $reset_link = \URL::route('front.reset.password', [ 'user_id' => $user->id, 'code' => $reminder->code ]);
+                    $reset_link = \URL::route('front.reset.password', [ 'user_id' => $user->email, 'code' => $reminder->code ]);
                     $params = [ 
-                        '{resetlink}'   => $reset_link,
-                        '{name}'        => $user->first_name.' '.$user->first_name,   
+                        'resetlink'   => $reset_link,
+                        'name'        => $user->first_name.' '.$user->first_name,   
                     ]; 
                     
                     $extra          = [ 'user' => $user ];
-                    $mail           = SendMailModel::sendMail('password-forgotten', $params, $user->company_id, $user->email, $extra);
-                    dd($params);
+                    $mail           = SendMailModel::dispatchMail('password-forgotten', $params, $user->email, $extra);  
+
+                    Session::flash('success', 'Mail is sent successfully for reset password. Please check your email for reset password link.');
+                    return redirect(route('user.forgot.password'));                  
                 }
             }
-            dd("working", $data, $userData);           
-          
+
             return \View::make($this->view.'forgot-pass-index', $data);
 
         } catch (Exception $e) {
@@ -170,8 +171,66 @@ class LoginController extends Controller
         }
     }
 
-    public function getResetPassword(Request $request, $code)
+    public function getResetPassword(Request $request, $user_id,$code)
     {
+        try {
+            $data = [];    
+            $data['code']           = $code;
+            $data['email']           = $user_id;
+            $userDetail     = User::where('email',$user_id)->first();
+            if($userDetail == null){
+                Session::flash('error', 'You are not authorize to use this feature. Please try again with valid email.');
+                return redirect(route('user.forgot.password'));   
+            }
+            $user           = Sentinel::findById($userDetail->id);
+            $reminder       = Reminder::exists($user);
+
+            if($reminder == false){
+                Session::flash('error', 'Reset password token is expired now. Please regenerate it.');
+                return redirect(route('user.forgot.password'));  
+            } else {
+                if(Sentinel::check()){
+                    return redirect(route('user.forgot.password'));  
+                } else {
+                    return \View::make($this->view.'reset_password', $data);
+                } 
+            }        
+
+        } catch (Exception $e) {
+            
+        }
+    }
+
+    public function checkResetPassword(Request $request)
+    {
+        $data   = $request->all();
+        $email  = $data['email'];
+        $code   = $data['code'];       
+        
+        $userDetail     = User::where('email', $email)->first(); 
+
+        if($userDetail == null){
+            Session::flash('error', 'You are not authorize to use this feature. Please try again with valid email.');
+            return redirect(route('user.forgot.password'));
+        }
+
+        $user = Sentinel::findById($userDetail->id);
+
+        if(Reminder::exists($user)){
+            
+            if(Reminder::exists($user, $code)){
+
+                if ($reminder = Reminder::complete($user, $code, $data['password'])) {
+
+                    Session::flash('success', 'Successfully Updated New Password');
+                    return redirect(route('user.login'));
+                }
+            } 
+
+        } else {
+            Session::flash('error', 'Sorry Code Expired. Pelase try with a new request to reset password.');
+            return redirect(route('user.forgot.password'));  
+        }
 
     }
 

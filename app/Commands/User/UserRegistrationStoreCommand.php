@@ -5,6 +5,7 @@ namespace App\Commands\User;
 use Illuminate\Console\Command;
 use App\DB\User;
 use App\DB\UserMaster;
+use App\DB\SendMailModel;
 use Carbon\Carbon;
 use Sentinel;
 
@@ -119,6 +120,17 @@ class UserRegistrationStoreCommand extends Command
                     $user_record->user_master_id     = $record->id;
                     $user_result                = $user_record->save();
                 });
+                
+                $params = [ 
+                    'email'   => $this->data['email'],
+                    'password'   => $this->data['password'],
+                    'name'        => $this->data['user_name'],   
+                ]; 
+                
+                $extra          = [ 'user' => [] ];
+                $mail           = SendMailModel::dispatchMail2('registration-mail', $params, $this->data['email'], $extra);
+                return true;
+                
             } catch (Exception $e) {
                 return false;
             }

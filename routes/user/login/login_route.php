@@ -33,5 +33,10 @@ Route::get('/user/{user_id}/reset-password/{code}', [
     'uses'  => 'User\LoginController@getResetPassword'
 ]);
 
+Route::post('/user/reset-password/check', [
+    'as'    => 'user.reset.password.check.update',
+    'uses'  => 'User\LoginController@checkResetPassword'
+]);
+
 
 ?>
