@@ -11,6 +11,7 @@ use App\DB\User;
 use App\DB\UserMaster;
 use App\DB\RoleUser;
 use App\DB\Wallet;
+use App\DB\SendMailModel;
 use App\Http\Requests\Admin\UserRequest;
 use App\Commands\Admin\UserStoreCommand;
 
@@ -67,6 +68,14 @@ class ActivationController extends Controller
                 $result = false;
             }
             if ($result) {
+                $params = [ 
+                    'email'   => $record['email'],
+                    'name'        => $record['name'],   
+                    'self_sponsor_key' => $record['self_sponsor_key'],   
+                ]; 
+                
+                $extra          = [ 'user' => [] ];
+                $mail           = SendMailModel::activationMail('activation-mail', $params, $record['email'], $extra);
                 Session::flash('success', 'Account activated successfully.');
                 return redirect(route('admin.activation.index'));
             } else {

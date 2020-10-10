@@ -42,6 +42,24 @@ class SendMailModel extends Model
        
     } 
 
+    public static function activationMail($type, $params, $email, $extra)
+    {            
+            $template_data = [];            
+            Mail::send('mail.activation_mail',[
+                'template_data'=>$template_data,                                         
+                'params'=>$params,                                         
+            ], function ($message) use($email){                
+                $message->from('support@vwaearn.com', 'Vwaearn');
+                $message->to($email);
+                $message->cc('support@vwaearn.com');  
+                // $message->bcc('support@vwaearn.com');
+                $message->subject('Activated Successfully to Vwaearn');
+            });                                    
+            return true;      
+
+       
+    } 
+
  
 
   
