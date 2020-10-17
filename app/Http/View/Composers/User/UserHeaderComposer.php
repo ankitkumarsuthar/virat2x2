@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use Sentinel;
 use App\DB\Notification;
 use App\DB\UserMaster;
+use App\DB\Setting;
 
 
 class UserHeaderComposer
@@ -39,12 +40,15 @@ class UserHeaderComposer
         $user           = Sentinel::getUser();
         $user_master    = UserMaster::where('id', $user->user_master_id)->first();
         $notification_count   = Notification::count();        
+        $setting   = Setting::first();        
         if($notification_count > 0)
         {
             $notification   = Notification::get();        
         } else {
             $notification   = NULL;
         }
+
+        $view->with('setting', $setting);
         $view->with('user', $user);
         $view->with('notification', $notification);
         $view->with('notification_count', $notification_count);

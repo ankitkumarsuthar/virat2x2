@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Sentinel;
+use App\DB\Setting;
 use Illuminate\Support\Facades\Session;
 
 class CheckUserAuthMiddleware
@@ -28,6 +29,14 @@ class CheckUserAuthMiddleware
                     $status = true;
                 }
             }
+            $setting = Setting::first();
+            if($setting->user_access == 0)
+            {
+                if(\Request::segment(2) == 'mlm' || \Request::segment(2) == 'my-account' || \Request::segment(2) == 'downline' || \Request::segment(2) == 'wallet'  || \Request::segment(2) == 'work' )
+                {
+                    $status = false;
+                }  
+            }            
 
             if($status) {
                 return $next($request);

@@ -137,50 +137,54 @@
                    
                 </li>
 
-                <li class="menu-title mt-2">Menu</li>
+                @if($setting->user_access == 1)
+                    <li class="menu-title mt-2">Menu</li>
 
-                <li>
-                    <a href="{{ URL::route('user.work.index') }}">
-                        <i data-feather="video"></i>
-                        <span> Work </span>
-                    </a>
-                </li>
-				
-				<li>
-                    <a href="{{ URL::route('user.myaccount') }}">
-                        <i data-feather="user"></i>
-                        <span> My Account </span>
-                    </a>
-                </li>
-				
-				<li>
-                    <a href="{{ URL::route('user.mlm_tree_view') }}">
-                        <i data-feather="share-2"></i>
-                        <span> Downline Tree </span>
-                    </a>
-                </li>
-				 
-				 <li>
-                    <a href="#sidebarCrm" data-toggle="collapse">
-                        <i data-feather="dollar-sign"></i>
-                        <span> Wallet </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarCrm">
-                        <ul class="nav-second-level">
-                             <li>
-                                <a href="{{ URL::route('user.wallet.transfer.to.another') }}">Transfer to Account</a>
-                            </li>
-							<li>
-                                <a href="{{ URL::route('user.wallet.withdraw.index') }}">Withdraw Money</a>
-                            </li>
-                            <li>
-                                <a href="{{ URL::route('user.wallet.all_transactions.index') }}">Transactions</a>
-                            </li>
-                           
-                        </ul>
-                    </div>
-                </li>
+                    <li>
+                        <a href="{{ URL::route('user.work.index') }}">
+                            <i data-feather="video"></i>
+                            <span> Work </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="{{ URL::route('user.myaccount') }}">
+                            <i data-feather="user"></i>
+                            <span> My Account </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="{{ URL::route('user.mlm_tree_view') }}">
+                            <i data-feather="share-2"></i>
+                            <span> Downline Tree </span>
+                        </a>
+                    </li>
+                     
+                     <li>
+                        <a href="#sidebarCrm" data-toggle="collapse">
+                            <i data-feather="dollar-sign"></i>
+                            <span> Wallet </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarCrm">
+                            <ul class="nav-second-level">
+                                 <li>
+                                    <a href="{{ URL::route('user.wallet.transfer.to.another') }}">Transfer to Account</a>
+                                </li>
+                                <li>
+                                    <a href="{{ URL::route('user.wallet.withdraw.index') }}">Withdraw Money</a>
+                                </li>
+                                <li>
+                                    <a href="{{ URL::route('user.wallet.all_transactions.index') }}">Transactions</a>
+                                </li>
+                               
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+
+               
 				
 				{{-- <li>
                     <a href="#">

@@ -149,6 +149,13 @@
                         <span> Profile   </span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="{{ URL::route('admin.setting.index') }}">
+                        <i class="fe-settings noti-icon"></i>
+                        <span> Setting   </span>
+                    </a>
+                </li>
 				
 				<li>
                     <a href="{{ URL::route('admin.logout') }}">

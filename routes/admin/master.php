@@ -10,6 +10,7 @@
 	include "withdrawal/withdrawal_route.php";
 	include "notification/notification_route.php";
 	include "profile/profile_route.php";
+	include "setting/setting_routes.php";
 	// include "myaccount/myaccount_route.php";
 	// include "mlm/mlm_route.php";
 	

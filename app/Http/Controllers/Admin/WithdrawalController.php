@@ -135,10 +135,20 @@ class WithdrawalController extends Controller
                         return $row->id;
                     })
                     ->addColumn('self_sponsor_key', function($row) {
-                        return $row->usermaster->self_sponsor_key;
+                        if(!empty($row->usermaster->self_sponsor_key))
+                        {
+                            return $row->usermaster->self_sponsor_key;
+                        } else {
+                            return '-';
+                        }
                     })
                     ->addColumn('usermaster', function($row) {
-                        return $row->usermaster->name;
+                        if(!empty($row->usermaster->name))
+                        {
+                            return $row->usermaster->name;
+                        } else {
+                            return '-';
+                        }
                     })
                     ->addColumn('detail', function($row) {
                         return $row->withdraw_option.": &#8377;".$row->withdraw_amount;
