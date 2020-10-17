@@ -8,17 +8,20 @@
                     <div class="col-xl-12">
                         <div class="form-group">
                             <label for="user_name">Name</label>
-                            <input type="text" id="user_name" name="user_name" class="form-control" placeholder="Enter name" value="">
+                            <input type="text" id="user_name" name="user_name" class="form-control" placeholder="Enter name" value="{{ $dummy_id }} User">
                         </div>
 
                          <div class="form-group">
                             <label for="user_email">Email</label>
-                            <input type="text" id="user_email" name="user_email" class="form-control" placeholder="Enter email">
+                            <?php
+                            $ddemail = $dummy_id.'@'.$dummy_id.'.com';
+                            ?>
+                            <input type="text" id="user_email" name="user_email" class="form-control" placeholder="Enter email" value="{{ $ddemail }}">
                         </div>
 
                         <div class="form-group">
                             <label for="user_mobile">Mobile</label>
-                            <input type="text" id="user_mobile" name="user_mobile" class="form-control" placeholder="Enter mobile" value="">
+                            <input type="text" id="user_mobile" name="user_mobile" class="form-control" placeholder="Enter mobile" value="222222222">
                         </div>
 
                         <div class="form-group">
@@ -33,7 +36,7 @@
 
                         <div class="form-group">
                             <label for="user_sponser_id">Sponser ID</label>
-                            <input type="text" id="user_sponser_id" name="user_sponser_id" class="form-control" placeholder="Enter Sponser" value="">
+                            <input type="text" id="user_sponser_id" name="user_sponser_id" class="form-control" placeholder="Enter Sponser" value="347364468">
                         </div>
 
                       

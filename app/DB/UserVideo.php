@@ -45,6 +45,7 @@ class UserVideo extends Model
         $record->watch_date       = date('Y-m-d');
         $record->is_watched       = 1;
         $result                   = $record->save();
+        // dd($user, $record);
 	 }
 
 	 public static function getUserTodayVideoCount($user_master)

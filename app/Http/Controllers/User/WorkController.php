@@ -98,6 +98,7 @@ class WorkController extends Controller
             $user_master   = UserMaster::getUserMaster($user['user_master_id']);
 
             $store_result = UserVideo::saveVideoConter($video_data, $user_master);
+            // dd('test');
 
             return redirect(route('user.work.index'));
         } catch (Exception $e) {
@@ -115,6 +116,7 @@ class WorkController extends Controller
             $store_result = UserVideo::saveVideoConter($video_data, $user_master);
             $user_level_data = Level::getUserCurrentLevel($user);   
             $level_data = Level::where('level_title', $user_level_data['current_level'])->first();            
+            // dd($level_data);
             $income_insert = Wallet::addVideoIncome($user_master, $level_data);
 
             Session::put('videoStart', 0);

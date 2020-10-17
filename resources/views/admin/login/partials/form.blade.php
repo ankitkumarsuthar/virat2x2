@@ -2,13 +2,13 @@
 
     <div class="form-group mb-3">
         <label for="email">Email address</label>
-        <input class="form-control" type="email" name="email" id="email" required="" placeholder="Enter your email">
+        <input class="form-control" type="email" name="email" id="email" required="" placeholder="Enter your email" value="admin@admin.com">
     </div>
 
     <div class="form-group mb-3">
         <label for="password">Password</label>
         <div class="input-group input-group-merge">
-            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" value="Vwaearn#123">
             <div class="input-group-append" data-password="false">
                 <div class="input-group-text">
                     <span class="password-eye"></span>

@@ -35,7 +35,7 @@
     </div>     
     <!-- end page title --> 
     
-    @include("admin.tree.partials.level")
+    @include("user.tree.partials.level")
     {{-- @include("admin.tree.partials.table") --}}
     
 

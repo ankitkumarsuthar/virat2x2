@@ -81,12 +81,12 @@
         } 
         table = $("#datatable-buttons").DataTable({
                 lengthChange: !1,    
-                   dom: 'Bfrtip',
-            buttons: [
-                'copy',
-                'print',
-                'pdf'
-            ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy',
+                    'print',
+                    'pdf'
+                ],
                 "order": [[ 0, "desc" ]],
                  responsive: true,
                 searchDelay: 500,

@@ -35,12 +35,13 @@
 
     
             @include("admin.user.partials.table")
+           
 
 
         </div> <!-- container -->
 
     </div> <!-- content -->
-
+    {{-- @include("admin.user.partials.level_modal") --}}
     @include("admin.partials.master-footer")  
 
 </div>
@@ -86,6 +87,7 @@
                 'print',
                 'pdf'
             ],
+            "order": [[ 0, "desc" ]],
             responsive: true,
             searchDelay: 500,
             processing: true,
@@ -97,7 +99,7 @@
                 { data: 'name', name: 'name', width: 100 }, 
                 { data: 'status', name: 'status', width: 100 }, 
                 { data: 'mobile', name: 'mobile', width: 200 },                
-                { data: 'level', name: 'level', width: 200 },                
+                // { data: 'level', name: 'level', width: 200 },                
                 { data: 'wallet', name: 'wallet', width: 200 },                
                 { data: 'action', name: 'action', width: 300 }, 
             ], 

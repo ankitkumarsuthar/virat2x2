@@ -8,6 +8,9 @@
     </p>    
     {{ Form::model($user, array('route' => array('admin.level.update'), 'id' => 'update_level_form', 'class' => 'kt-form kt-form--label-left', 'files' => true)) }}            
         @foreach($all_level as $key => $level)  
+            <?php 
+            $key++;
+            ?>
             <div class="form-group row">
                 <label for="hori-pass1" class="col-2 col-form-label">{{ $level['level_title'] }}<span class="text-danger">*</span></label>
                 <div class="col-3">

@@ -73,6 +73,9 @@ class UsersController extends Controller
             $data['lang']           = $this->add;
             $data['user']           = new User;
             $data['view']           = $this->view;
+            $data['last_id']        = User::orderBy('id','desc')->limit(1)->pluck('id')->toArray();
+            $data['dummy_id']       = $data['last_id'][0] + 1;
+            // dd($data['dummy_id']);
             // $data['status_list']    = User::getStatusList();
             // $data['role_list']      = Role::getRoleList();
             // dd($this->view.'add');
@@ -137,8 +140,10 @@ class UsersController extends Controller
             $data['page_title']     = 'Edit User';
             $data['lang']           = $this->edit;
             $data['user']           = User::find($id);
+            $data['user_level_data']            = Level::getUserCurrentLevel($data['user']); 
             $data['user_master']    = UserMaster::getUserMaster($data['user']['user_master_id']); 
             $data['view']           = $this->view;
+            // dd($data['user_level_data']);
             return \View::make($this->view.'edit', $data);
     	} catch (Exception $e) {
     		
@@ -215,6 +220,7 @@ class UsersController extends Controller
         try {            
             $user_id_list = RoleUser::where('role_id', '3')->pluck('user_id')->toArray();
             $data 	     = User::whereIn('id', $user_id_list)->get();
+            // dd($data);
             return \DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('self_sponsor_key', function($row) {
@@ -234,16 +240,10 @@ class UsersController extends Controller
                     ->addColumn('mobile', function($row) {
                         return $row->usermaster->mobile.'|| '.$row->usermaster->email;
                     }) 
-                    ->addColumn('level', function($row) {
-                        $user_level = Level::getUserCurrentLevel($row);
-                        // dd($user_level);
-                        if(!empty($user_level) && !empty($user_level['current_level']))
-                        {
-                            return $user_level['current_level'];
-                        } else {
-                            return '-';
-                        }
-                    }) 
+                    // ->addColumn('level', function($row) {
+                    //     $level_btn = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">Click To See Level</button>';
+                    //     return $level_btn;
+                    // })                    
                     ->addColumn('wallet', function($row) {
                         if($row->usermaster->wallet_balance > 0)
                         {
@@ -252,8 +252,7 @@ class UsersController extends Controller
                             return "&#8377; 0";
                         }
                     })                      
-                    ->addColumn('action', function($row) {
-                        // $edit_btn = '<a href="'.\URL::route('admin.user.edit', [ 'id' => $row->id ]).'" class="btn btn-outline-info btn-elevate btn-circle btn-icon mt-1 mb-1 mr-2" title="'.\Lang::get($this->index.'edit_title').'"><i class="la la-edit"></i></a>';
+                    ->addColumn('action', function($row) {                        
                         $edit_btn = '<a href="'.\URL::route('admin.user.edit', [ 'id' => $row->id ]).'"><button type="button" class="btn btn-primary waves-effect waves-light">Edit</button></a>';
 
                         // $delete_btn = '<a href="javascript:deleteClient(\''.$row->id.'\')" id="delete_'.$row->id.'" data-url="'.\URL::route('admin.user.delete', [ 'id' => $row->id ]).'" class="btn btn-outline-danger btn-elevate btn-circle btn-icon mt-1 mb-1 mr-2" title="'.\Lang::get($this->index.'delete_title').'"><i class="la la-trash"></i></a>';

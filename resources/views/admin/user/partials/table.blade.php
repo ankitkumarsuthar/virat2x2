@@ -27,7 +27,7 @@
                             <th>Name</th>
                             <th>Status</th>
                             <th>Mobile || Email</th>                            
-                            <th>Level</th>                            
+                            {{-- <th>Level</th>                             --}}
                             <th>Wallet</th>                       
                             <th>Action</th> 
                         </tr>

@@ -1,7 +1,7 @@
  <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-body">
+        <div class="card" style="width: 500% !important;">
+            <div class="card-body" style="">
 
              {{--  --}}
 

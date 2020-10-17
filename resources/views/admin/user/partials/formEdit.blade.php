@@ -95,6 +95,10 @@
                             <label for="user_sponser_id">Paytm Phone No: <b>{{ $user_master->paytm_phone }}</b></label>
                         </div>
 
+                        <div class="form-group">
+                            <label for="user_sponser_id">LEVEL: <b>{{ @$user_level_data['current_level'] }}</b></label>
+                        </div>
+
 
 
                       

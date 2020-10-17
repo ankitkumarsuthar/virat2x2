@@ -145,8 +145,8 @@ class UserStoreCommand extends Command
                     $record->mobile             = $this->data['user_mobile'];
                     $record->address            = $this->data['user_address'];
                     $record->self_sponsor_key   = rand();
-                    // $record->account_status     = 1;
-                    $record->account_status     = 0;
+                    $record->account_status     = 1;
+                    // $record->account_status     = 0;
 
                     if(!empty($sponser_detail['sponser_for_current_insert']))
                     {
